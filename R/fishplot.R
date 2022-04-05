@@ -1,5 +1,5 @@
 library(tidyverse)
-library(lubridate)
+# library(lubridate)
 library(fishplot)
 
 ################################################################################# I ### Load data
@@ -21,24 +21,24 @@ WES_data1 <- WES_data %>%
 
 ################################################################################# II ### Fish plots
 
-hct_id <- "hct_1"
+hct_id <- "hct_634851"
 
-timepoints <- c(-38, 81, 368, 368, 1011)    
+timepoints <- c(-38, 81, 368, 1011)    
 
+# Donor 0	ASXL1	G642fs	0.111
 # -38	NA	NA	NA
 # 81	ASXL1	G642fs	0.397
 # 368	ASXL1	G642fs	0.481
 # 368	RUNX1	P425fs	0.041
-# 1011	ASXL1	G646Wfs*12	0.17
+# 1011	ASXL1	G646Wfs*12	0.17    C
 
 frac.table = matrix(
-  c(0.0001, 0.0001, 
-    0.397, 0.0001,
-    0.481, 0.0001,
-    4.1, 0.041,
-    0.17, 0.0001),
+  c(0, 0,
+    39.7, 0.0001, 
+    48.1, 4.1, #368
+    17, 0.0001),
   ncol=length(timepoints))
-parents = c(0,0)
+parents = c(0, 1)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
                         col = c("darkblue", "red"),
                         clone.labels = c("ASXL1 G642fs", "RUNX1 P425fs"))
@@ -46,30 +46,51 @@ fish = layoutClones(fish)
 
 fishPlot(fish,shape="spline",title.btm= hct_id,
          cex.title=1, vlines=c(timepoints), col.vline = "grey",
-         vlab=c(timepoints), 
+         vlab=c(-38, 0, 81, 368, 1011), 
          bg.type = "solid",
          bg.col = "white"
 )
-drawLegend(fish,cex=1.5,xpos=-40)
+drawLegend(fish,cex=1.0,xpos=-500, nrow = 4)
 
+timepoints <- c(-100, 0, 100)    
+frac.table = matrix(
+  c(11.1, 
+    11.1,
+    11.1),
+  ncol=length(timepoints))
+parents = c(0)
+fish = createFishObject(frac.table,parents,timepoints=timepoints,
+                        col = c("darkblue"),
+                        clone.labels = c("Donor-ASXL1 G642fs"))
+fish = layoutClones(fish)
+
+fishPlot(fish,shape="polygon",title.btm= hct_id,
+         cex.title=1, vlines=NULL,
+         ramp.angle = 1,
+         vlab=NULL, 
+         bg.type = "solid",
+         bg.col = "transparent"
+)
+drawLegend(fish,cex=1.0,xpos=-200)
 ##################
-hct_id <- "hct_2"
+hct_id <- "hct_657119"
 
 timepoints <- c(-22, 377, 516)    
 
+# Donor 0	ASXL1	L956fs	0.023
 # -22	NA	NA	NA
 # 377	ASXL1	L956fs	0.116
 # 516	ASXL1	L956fs	0.01
 
 frac.table = matrix(
   c(0.0001,
-    0.116,
-    0.01),
+    11.6, 
+    1),
   ncol=length(timepoints))
 parents = c(0)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
                         col = c("darkblue"),
-                        clone.labels = c("AASXL1	L956fs"))
+                        clone.labels = c("ASXL1 L956fs"))
 fish = layoutClones(fish)
 
 fishPlot(fish,shape="spline",title.btm= hct_id,
@@ -78,35 +99,56 @@ fishPlot(fish,shape="spline",title.btm= hct_id,
          bg.type = "solid",
          bg.col = "white"
 )
-drawLegend(fish,cex=1.5,xpos=-40)
+drawLegend(fish,cex=1.0,xpos=-500, nrow = 4)
 
+timepoints <- c(-100, 0, 100)    
+frac.table = matrix(
+  c(2.3, 
+    2.3,
+    2.3),
+  ncol=length(timepoints))
+parents = c(0)
+fish = createFishObject(frac.table,parents,timepoints=timepoints,
+                        col = c("darkblue"),
+                        clone.labels = c("Donor-ASXL1 L956fs"))
+fish = layoutClones(fish)
+
+fishPlot(fish,shape="polygon",title.btm= hct_id,
+         cex.title=1, vlines=NULL,
+         ramp.angle = 1,
+         vlab=NULL, 
+         bg.type = "solid",
+         bg.col = "transparent"
+)
+drawLegend(fish,cex=1.0,xpos=-200)
 #################
 
-hct_id <- "hct_3"
+hct_id <- "hct_705854"
 
 timepoints <- c(-132, -29, 30, 115, 231, 337)    
 
-# -132	NA	NA	NA
+# Donor 0	TET2	Q626X	0.86
+# -132	NA	NA	NA        C
 # -29	NF1	R1362X	0.364
 # -29	CHEK2	R346C	0.297
-# 30	TET2	Q626X	0.125
+# 30	TET2	Q626X	0.125   C
 # 115	TET2	Q626X	0.111
-# 231	TET2	Q626X	0.123
-# 337	TET2	Q626X	0.124
+# 231	TET2	Q626X	0.123   C
+# 337	TET2	Q626X	0.124   C
 
 frac.table = matrix(
-  c(0.364, 0.0001, 0.0001,
-    0.0001, 0.297, 0.0001,
-    0.0001, 0.0001, 0.125,
-    0.0001, 0.0001, 0.111,
-    0.0001, 0.0001, 0.123,
-    0.0001, 0.0001, 0.124),
+  c(0.0001, 0.0001, 0,
+    36.4, 29.7, 0, #-29
+    0.0001, 0.0001, 12.5,
+    0.0001, 0.0001, 11.1,
+    0.0001, 0.0001, 12.3,
+    0.0001, 0.0001, 12.4),
   ncol=length(timepoints))
-parents = c(0,0, 0)
+parents = c(0,1, 0)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
                         col = c("darkblue", "red", "yellow"),
                         clone.labels = c("NF1	R1362X", "CHEK2	R346C", "TET2	Q626X"))
-fish = layoutClones(fish)
+fish = layoutClones(fish, separate.independent.clones=T)
 
 fishPlot(fish,shape="spline",title.btm= hct_id,
          cex.title=1, vlines=c(timepoints), col.vline = "grey",
@@ -114,38 +156,60 @@ fishPlot(fish,shape="spline",title.btm= hct_id,
          bg.type = "solid",
          bg.col = "white"
 )
-drawLegend(fish,cex=1.5,xpos=-40)
+drawLegend(fish,cex=1.0,xpos=-300, nrow = 4)
 
+timepoints <- c(-100, 0, 100)    
+frac.table = matrix(
+  c(86, 
+    86,
+    86),
+  ncol=length(timepoints))
+parents = c(0)
+fish = createFishObject(frac.table,parents,timepoints=timepoints,
+                        col = c("yellow"),
+                        clone.labels = c("Donor-TET2	Q626X"))
+fish = layoutClones(fish)
+
+fishPlot(fish,shape="polygon",title.btm= hct_id,
+         cex.title=1, vlines=NULL,
+         ramp.angle = 1,
+         vlab=NULL, 
+         bg.type = "solid",
+         bg.col = "transparent"
+)
+drawLegend(fish,cex=1.0,xpos=-200)
 #################
 
-hct_id <- "hct_4"
+hct_id <- "hct_715231"
 
 timepoints <- c(-233, -23, 86, 363, 727)    
 
-# -233	IDH2	R140Q	0.4
-# -233	SRSF2	P95R	0.399
-# -233	SETBP1	D868N	0.109
-# -233	GNAS	R844H	0.378
-# -23	ASXL1	H630fs	0.163
-# -23	IDH2	R140Q	0.356
-# -23	SRSF2	P95R	0.369
-# -23	GNAS	R844H	0.366
+# Donor 0	ASXL1	G462fs	0.062
+# -233	IDH2	R140Q	0.4   C
+# -233	SRSF2	P95R	0.399   C
+# -233	SETBP1	D868N	0.109   C   lost
+# -233	GNAS	R844H	0.378   C
+# -23	ASXL1	H630fs	0.163   C
+# -23	IDH2	R140Q	0.356   C
+# -23	SRSF2	P95R	0.369   C
+# -23	GNAS	R844H	0.366   C
 # 86	ASXL1	G462fs	0.115
 # 363	ASXL1	G462fs	0.268
-# 727	ASXL1	G462fs	0.19
+# 727	ASXL1	G462fs	0.19    C
 
 frac.table = matrix(
-  c(40, 39.9, 10.9, 37.8, 0.0001, 0.0001, 
-    35.6, 36.9, 0.0001, 36.6, 16.3, 0.0001, 
-    0.0001, 0.0001, 0.0001, 0.0001, 0.0001, 11.5,
-    0.0001, 0.0001, 0.0001, 0.0001, 0.0001, 26.8,
-    0.0001, 0.0001, 0.0001, 0.0001, 0.0001, 19),
+  c(0, 40, 39.9, 10.9, 37.8, 0.0001, 
+    0, 35.6, 36.9, 0.0001, 36.6, 16.3, 
+    11.5, 0.0001, 0.0001, 0.0001, 0.0001, 0.0001, 
+    26.8, 0.0001, 0.0001, 0.0001, 0.0001, 0.0001, 
+    19, 0.0001, 0.0001, 0.0001, 0.0001, 0.0001),
   ncol=length(timepoints))
-parents = c(0,0, 0, 2, 0, 0)
+parents = c(0, 0, 0, 5, 3, 2)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
                         col = c("darkblue", "red", "yellow", "pink", "grey", "green"),
-                        clone.labels = c("IDH2	R140Q", "SRSF2	P95R", "SETBP1	D868N", "GNAS	R844H", "ASXL1	H630fs", "ASXL1	G462fs"))
-fish = layoutClones(fish)
+                        clone.labels = c("ASXL1	G462fs", "IDH2 R140Q", "SRSF2	P95R", "SETBP1 D868N", 
+                                         "GNAS R844H", "ASXL1 H630fs"))
+fish = layoutClones(fish, separate.independent.clones=T)
 
 fishPlot(fish,shape="spline",title.btm= hct_id,
          cex.title=1, vlines=c(timepoints), col.vline = "grey",
@@ -153,21 +217,42 @@ fishPlot(fish,shape="spline",title.btm= hct_id,
          bg.type = "solid",
          bg.col = "white"
 )
-drawLegend(fish,cex=1.5,xpos=-40)
+drawLegend(fish,cex=1.0,xpos=-500, nrow = 4)
 
+timepoints <- c(-100, 0, 100)    
+frac.table = matrix(
+  c(6.2, 
+    6.2,
+    6.2),
+  ncol=length(timepoints))
+parents = c(0)
+fish = createFishObject(frac.table,parents,timepoints=timepoints,
+                        col = c("darkblue"),
+                        clone.labels = c("Donor-ASXL1 G462fs"))
+fish = layoutClones(fish)
+
+fishPlot(fish,shape="polygon",title.btm= hct_id,
+         cex.title=1, vlines=NULL,
+         ramp.angle = 1,
+         vlab=NULL, 
+         bg.type = "solid",
+         bg.col = "transparent"
+)
+drawLegend(fish,cex=1.0,xpos=-200)
 #################
 
-hct_id <- "hct_5"
+hct_id <- "hct_753399"
 
 timepoints <- c(-140, -42, 142, 292, 365, 463, 544)    
 
+# Donor 0	SH2B3	480_487del	0.362
 # -140	DNMT3A	R882C	0.351
 # -140	DNMT3A		0.28
 # -140	TET2	M1028Nfs*15	0.32
 # -140	SRSF2	P95R	0.05
 # -140	SRSF2	P95L	0.24
-# -42	NA	NA	NA
-# 142	SH2B3	480_487del	0.204
+# -42	NA	NA	NA                  A
+# 142	SH2B3	480_487del	0.204     A
 # 142	DNMT3A	R882C	0.108
 # 142	DNMT3A		0.121
 # 142	TET2	M1028Nfs*15	0.1
@@ -177,7 +262,7 @@ timepoints <- c(-140, -42, 142, 292, 365, 463, 544)
 # 292	TET2	M1028Nfs*15	0.45
 # 292	SRSF2	P95L	0.506
 # 292	BCOR	L1646Pfs*6	0.9
-# 365	SH2B3	480_487del	0.077
+# 365	SH2B3	480_487del	0.077     A
 # 365	DNMT3A	R882C	0.333
 # 365	DNMT3A		0.374
 # 365	TET2	M1028Nfs*15	0.26
@@ -188,7 +273,7 @@ timepoints <- c(-140, -42, 142, 292, 365, 463, 544)
 # 463	SRSF2	P95L	0.18
 # 463	NRAS	Q61H	0.1
 # 463	BCOR	L1646Pfs*6	0.13
-# 544	SH2B3	480_487del	0.041
+# 544	SH2B3	480_487del	0.041     A
 # 544	DNMT3A	R882C	0.311
 # 544	DNMT3A		0.296
 # 544	TET2	M1028Nfs*15	0.29
@@ -197,20 +282,26 @@ timepoints <- c(-140, -42, 142, 292, 365, 463, 544)
 # 544	NRAS	Q61H	0.25
 
 frac.table = matrix(
-  c(35, 28, 32, 5, 24, 0.0001, 0.0001, 0.0001, #-140
-    0.0001, 0.0001, 0.0001, 0.0001, 0.0001, 0.0001, 0.0001, 0.0001, #-42       ######################Cannot do that
-    10.8, 12.1, 10, 0.0001, 10, 20.4, 0.0001, 0.0001, #142
-    48.2, 49.3, 45, 0.0001, 50.6, 0.0001, 90, 0.0001, #292
-    33.3, 37.4, 26, 0.0001, 37.5, 7.7, 0.0001, 0.0001, #365
-    17.1, 19, 18, 0.0001, 18, 0.0001, 13, 10, #463
-    31.1, 29.6, 29, 0.0001, 34,6, 4.1, 41, 25
+  c(35.1, 28, "27.9", 5, 24,                     0, 0.0001, 0.0001, "0.0001", #-140
+    0.0001, 0.0001, 0.0001, 0.0001, 0.0001,      0.0001, 0.0001, 0.0001, "0.0001", #-42
+    
+    10.8, "10.7", 10, 0.0001, 10,                20.4, 0.0001, 0.0001, "0.0001", #142
+    48.2, "48.1", 45, 0.0001, "44.9",            0.0001, "44.8", 0.0001, "44.9", #292
+    33.3, "33.2", 26, 0.0001, "25.9",            7.7, 0.0001, 0.0001, "0.0001", #365
+    "18.1", "18", "17.9", 0.0001, "17.8",        0.0001, 7, 10, "6", #463
+    31.1, 29.6, 29, 0.0001, "28.9",              4.1, 21, 25, "20"
     ),
   ncol=length(timepoints))
-parents = c(0,0, 0, 0, 0, 0)
+frac.table <- matrix(as.numeric(frac.table), ncol=length(timepoints))
+parents = c(0,1, 2, 0, 3, 0, 5, 0, 0)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
-                        col = c("darkblue", "red", "yellow", "pink", "grey", "green", "white", "black"),
-                        clone.labels = c("DNMT3A	R882C", "DNMT3A", "TET2	M1028Nfs*15", "SRSF2	P95R", "SRSF2	P95L", "SH2B3	480_487del", "BCOR	L1646Pfs*6", "NRAS	Q61H"))
-fish = layoutClones(fish)
+                        col = c("darkblue", "red", "yellow", "pink", "grey", "green", "purple", "black", "purple"),
+                        clone.labels = c("DNMT3A	R882C", "DNMT3A", "TET2	M1028Nfs*15", 
+                                         "SRSF2	P95R", "SRSF2	P95L", "SH2B3	480_487del", "BCOR	L1646Pfs*6", 
+                                         "NRAS	Q61H", "2-BCOR	L1646Pfs*6"
+                                         ))
+# fish = layoutClones(fish)
+fish = layoutClones(fish, separate.independent.clones=T)
 
 fishPlot(fish,shape="spline",title.btm= hct_id,
          cex.title=1, vlines=c(timepoints), col.vline = "grey",
@@ -218,23 +309,44 @@ fishPlot(fish,shape="spline",title.btm= hct_id,
          bg.type = "solid",
          bg.col = "white"
 )
-drawLegend(fish,cex=1.5,xpos=-40)
+drawLegend(fish,cex=1.0,xpos=-500, nrow = 4)
 
+timepoints <- c(-100, 0, 100)    
+frac.table = matrix(
+  c(36.2, 
+    36.2,
+    36.2),
+  ncol=length(timepoints))
+parents = c(0)
+fish = createFishObject(frac.table,parents,timepoints=timepoints,
+                        col = c("green"),
+                        clone.labels = c("Donor-SH2B3	480_487del"))
+fish = layoutClones(fish)
+
+fishPlot(fish,shape="polygon",title.btm= hct_id,
+         cex.title=1, vlines=NULL,
+         ramp.angle = 1,
+         vlab=NULL, 
+         bg.type = "solid",
+         bg.col = "transparent"
+)
+drawLegend(fish,cex=1.0,xpos=-200)
 #################
 
-hct_id <- "hct_6"
+hct_id <- "hct_753525"
 
 timepoints <- c(-114, -16, 42, 84, 346, 514, 684)    
 
+# Donor 0	DNMT3A	P904L	0.116
 # -114	DNMT3A	E578X	0.459
 # -114	NRAS	G12D	0.221
 # -114	IDH1	R132C	0.221
-# -16	DNMT3A	R882H	0.094
-# -16	DNMT3A	E578X	0.051
+# -16	DNMT3A	R882H	0.094     A
+# -16	DNMT3A	E578X	0.051     A
 # 42	DNMT3A	P904L	0.179
 # 42	KRAS	T50I	0.199
 # 42	RUNX1	I177V	0.116
-# 84	DNMT3A	P904L	0.181
+# 84	DNMT3A	P904L	0.181     A
 # 346	DNMT3A	P904L	0.156
 # 346	KRAS	T50I	0.155
 # 346	RUNX1	I177V	0.104
@@ -246,18 +358,76 @@ timepoints <- c(-114, -16, 42, 84, 346, 514, 684)
 # 684	RUNX1	I177V	0.097
 
 frac.table = matrix(
-  c(45.9, 22.1, 22.1, 0.0001, 0.0001, 0.0001, 0.0001, #-114
-    5.1, 0.0001, 0.0001, 9.4, 0.0001, 0.0001, 0.0001, #-16
-    0.0001, 0.0001, 0.0001, 0.0001, 17.9, 19.9, 11.6, #42
-    0.0001, 0.0001, 0.0001, 0.0001, 18.1, 0.0001, 0.0001, #84
-    0.0001, 0.0001, 0.0001, 0.0001, 15.6, 15.5, 10.4, #346
-    0.0001, 0.0001, 0.0001, 0.0001, 17, 15, 10, #514
-    0.0001, 0.0001, 0.0001, 0.0001, 12.9, 13.9, 9.7),
+  c(45.9, 22.1, 0.0001, 22.1,        0.0001, 0.0001, 0.0001, #-114
+    9.5, 0.0001, 9.4, 0.0001,        0.0001, 0.0001, 0.0001, #-16 ###### Change 5.1 to 9.5
+    0.0001, 0.00001, 0.00001, 0.00001, 17.9, 19.9, 11.6, #42
+    0.0001, 0.00001, 0.00001, 0.00001, 18.1, 0.0001, 0.0001, #84
+    0.0001, 0.00001, 0.00001, 0.00001, 15.6, 15.5, 10.4, #346
+    0.0001, 0.00001, 0.00001, 0.00001, 17, 15, 10, #514
+    0.0001, 0.00001, 0.00001, 0.00001, 12.9, 13.9, 9.7),
   ncol=length(timepoints))
-parents = c(0,0, 0, 0, 0, 0)
+parents = c(0,1, 1, 1, 0, 0, 0)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
-                        col = c("darkblue", "red", "yellow", "pink", "grey", "green", "white"),
-                        clone.labels = c("DNMT3A	E578X", "NRAS	G12D", "IDH1	R132C", "DNMT3A	R882H", "DNMT3A	P904L", "KRAS	T50I", "RUNX1	I177V"))
+                        col = c("darkblue", "red", "yellow", "pink", "grey", "green", "orange"),
+                        clone.labels = c("DNMT3A	E578X", "NRAS	G12D", "DNMT3A	R882H", "IDH1	R132C", 
+                                         "DNMT3A	P904L", "KRAS	T50I", "RUNX1	I177V"))
+fish = layoutClones(fish, separate.independent.clones = T)
+
+fishPlot(fish,shape="spline",title.btm= hct_id,
+         cex.title=1, vlines=c(timepoints), col.vline = "grey",
+         vlab=c(timepoints), 
+         bg.type = "solid",
+         bg.col = "white"
+)
+drawLegend(fish,cex=1.0,xpos=-200)
+
+timepoints <- c(-100, 0, 100)    
+frac.table = matrix(
+  c(3.8, 
+    3.8,
+    3.8),
+  ncol=length(timepoints))
+parents = c(0)
+fish = createFishObject(frac.table,parents,timepoints=timepoints,
+                        col = c("grey"),
+                        clone.labels = c("DNMT3A P904L"))
+fish = layoutClones(fish)
+
+fishPlot(fish,shape="polygon",title.btm= hct_id,
+         cex.title=1, vlines=NULL,
+         ramp.angle = 1,
+         vlab=NULL, 
+         bg.type = "solid",
+         bg.col = "transparent"
+)
+drawLegend(fish,cex=1.0,xpos=-200)
+#################
+
+hct_id <- "hct_769464"
+
+timepoints <- c(-114, -23, 98, 339, 538, 696)    
+
+# Donor 0	DNMT3A	R882C	0.038
+# -114	U2AF1	Q157R	0.322
+# -23	NA	NA	NA            A
+# 98	TP53	V104M	0.038     A
+# 98	DNMT3A	R882C	0.1     A
+# 339	DNMT3A	R882C	0.151
+# 538	DNMT3A	R882C	0.165
+# 696	DNMT3A	R882C	0.147
+
+frac.table = matrix(
+  c(32.2, 0.0001, 0.0001,  #-114
+    0.0001, 0.0001, 0.0001,  #-23
+    0.0001, 3.8, 10,  #98
+    0.0001, 0.0001, 15.1,  #339
+    0.0001, 0.0001, 16.5,  #538
+    0.0001, 0.0001, 14.7),
+  ncol=length(timepoints))
+parents = c(0,0, 0)
+fish = createFishObject(frac.table,parents,timepoints=timepoints,
+                        col = c("darkblue", "red", "yellow"),
+                        clone.labels = c("U2AF1", "TP53	V104M", "DNMT3A	R882C"))
 fish = layoutClones(fish)
 
 fishPlot(fish,shape="spline",title.btm= hct_id,
@@ -266,8 +436,28 @@ fishPlot(fish,shape="spline",title.btm= hct_id,
          bg.type = "solid",
          bg.col = "white"
 )
-drawLegend(fish,cex=1.5,xpos=-40)
+drawLegend(fish,cex=1.0,xpos=-500, nrow = 4)
 
+timepoints <- c(-100, 0, 100)    
+frac.table = matrix(
+  c(3.8, 
+    3.8,
+    3.8),
+  ncol=length(timepoints))
+parents = c(0)
+fish = createFishObject(frac.table,parents,timepoints=timepoints,
+                        col = c("yellow"),
+                        clone.labels = c("DNMT3A R882C"))
+fish = layoutClones(fish)
+
+fishPlot(fish,shape="polygon",title.btm= hct_id,
+         cex.title=1, vlines=NULL,
+         ramp.angle = 1,
+         vlab=NULL, 
+         bg.type = "solid",
+         bg.col = "transparent"
+)
+drawLegend(fish,cex=1.0,xpos=-200)
 #################
 
 
@@ -332,7 +522,7 @@ fishPlot(fish,shape="spline",title.btm= hct634851$HCT_id,
          bg.type = "solid",
          bg.col = "white"
          )
-drawLegend(fish,cex=1.5,xpos=-40)
+drawLegend(fish,cex=1.0,xpos=-500, nrow = 4)
 
 
 
@@ -353,7 +543,7 @@ drawLegend(fish,cex=1.5,xpos=-40)
 #          cex.title=1, vlines=c(0,150), col.vline = "grey",
 #          vlab=c("ARCH","T"), bg.type = "solid",
 #          bg.col = "white")
-# drawLegend(fish,cex=1.5,xpos=-40)
+# drawLegend(fish,cex=1.0,xpos=-500, nrow = 4)
 # # dev.off()
 # 
 # #Case3
@@ -373,7 +563,7 @@ drawLegend(fish,cex=1.5,xpos=-40)
 #          cex.title=1, vlines=c(0,150), col.vline = "grey",
 #          vlab=c("ARCH","T"), bg.type = "solid",
 #          bg.col = "white")
-# drawLegend(fish,cex=1.5,xpos=-40)
+# drawLegend(fish,cex=1.0,xpos=-500, nrow = 4)
 # dev.off()
 # 
 # #Case6
@@ -394,7 +584,7 @@ drawLegend(fish,cex=1.5,xpos=-40)
 #          cex.title=1, vlines=c(0,150), col.vline = "grey",
 #          vlab=c("ARCH","T"), bg.type = "solid",
 #          bg.col = "white")
-# drawLegend(fish,cex=1.5,xpos=-40)
+# drawLegend(fish,cex=1.0,xpos=-500, nrow = 4)
 # dev.off()
 # 
 # #Case7
@@ -414,7 +604,7 @@ drawLegend(fish,cex=1.5,xpos=-40)
 #          cex.title=1, vlines=c(0,150), col.vline = "grey",
 #          vlab=c("ARCH","T"), bg.type = "solid",
 #          bg.col = "white")
-# drawLegend(fish,cex=1.5,xpos=-40)
+# drawLegend(fish,cex=1.0,xpos=-500, nrow = 4)
 # dev.off()
 # 
 # #Case10
@@ -434,7 +624,7 @@ drawLegend(fish,cex=1.5,xpos=-40)
 #          cex.title=1, vlines=c(0,150), col.vline = "grey",
 #          vlab=c("ARCH","T"), bg.type = "solid",
 #          bg.col = "white")
-# drawLegend(fish,cex=1.5,xpos=-40)
+# drawLegend(fish,cex=1.0,xpos=-500, nrow = 4)
 # dev.off()
 # 
 # #Case13
@@ -454,5 +644,5 @@ drawLegend(fish,cex=1.5,xpos=-40)
 #          cex.title=1, vlines=c(0,150), col.vline = "grey",
 #          vlab=c("ARCH","T"), bg.type = "solid",
 #          bg.col = "white")
-# drawLegend(fish,cex=1.5,xpos=-40)
+# drawLegend(fish,cex=1.0,xpos=-500, nrow = 4)
 # dev.off()
