@@ -2,24 +2,24 @@ library(tidyverse)
 # library(lubridate)
 library(fishplot)
 
-################################################################################# I ### Load data
-path <- fs::path("", "Volumes", "Gillis_Research","Christelle Colin-Leitzinger", "CH_transfer_HCT")
-
-WES_data <- 
-  readxl::read_xlsx(paste0(path, "/data/CICPT2144_cleaned vcf_01.21.22_reviewed w EHR and raw vcf_03.30.22_for Christelle.xlsx"))
-
-# hct634851 <- read_csv("hct634851.csv")
-################################################################################# II ### Data cleaning
-WES_data1 <- WES_data %>% 
-  # Create a HCT id
-  mutate(hct_id = paste0("hct_", dense_rank(BMT_date)), .before = 1) %>% 
-  # Keep only sequencing from clinical when have 2 platform data for the same date
-  arrange(hct_id, Sample_Type, Date_of_Collection, desc(NGS_Type)) %>% 
-  distinct(hct_id, Sample_Type, Date_of_Collection, GENE, VARIANT_P, .keep_all = TRUE)
-
-
-
-################################################################################# II ### Fish plots
+# ################################################################################# I ### Load data
+# path <- fs::path("", "Volumes", "Gillis_Research","Christelle Colin-Leitzinger", "CH_transfer_HCT")
+# 
+# WES_data <- 
+#   readxl::read_xlsx(paste0(path, "/data/CICPT2144_cleaned vcf_01.21.22_reviewed w EHR and raw vcf_03.30.22_for Christelle.xlsx"))
+# 
+# # hct634851 <- read_csv("hct634851.csv")
+# ################################################################################# II ### Data cleaning
+# WES_data1 <- WES_data %>% 
+#   # Create a HCT id
+#   mutate(hct_id = paste0("hct_", dense_rank(BMT_date)), .before = 1) %>% 
+#   # Keep only sequencing from clinical when have 2 platform data for the same date
+#   arrange(hct_id, Sample_Type, Date_of_Collection, desc(NGS_Type)) %>% 
+#   distinct(hct_id, Sample_Type, Date_of_Collection, GENE, VARIANT_P, .keep_all = TRUE)
+# 
+# 
+# 
+# ################################################################################# II ### Fish plots
 
 hct_id <- "hct_634851"
 
@@ -198,13 +198,17 @@ timepoints <- c(-233, -23, 86, 363, 727)
 # 727	ASXL1	G462fs	0.19    C
 
 frac.table = matrix(
-  c(0, 40, 39.9, 10.9, 37.8, 0.0001, 
+  c(0, 40, 39.9, 10.9, 37.8, 0.0001, # blue, red, yellow, pink, grey, green
     0, 35.6, 36.9, 0.0001, 36.6, 16.3, 
     11.5, 0.0001, 0.0001, 0.0001, 0.0001, 0.0001, 
     26.8, 0.0001, 0.0001, 0.0001, 0.0001, 0.0001, 
     19, 0.0001, 0.0001, 0.0001, 0.0001, 0.0001),
   ncol=length(timepoints))
 parents = c(0, 0, 0, 5, 3, 2)
+
+frac.table = frac.table[c( 3, 5, 6, 1, 2, 4),]
+parents = c(0, 1, 2, 0, 0, 5)
+
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
                         col = c("darkblue", "red", "yellow", "pink", "grey", "green"),
                         clone.labels = c("ASXL1	G462fs", "IDH2 R140Q", "SRSF2	P95R", "SETBP1 D868N", 
@@ -212,6 +216,12 @@ fish = createFishObject(frac.table,parents,timepoints=timepoints,
 fish = layoutClones(fish, separate.independent.clones=T)
 
 fishPlot(fish,shape="spline",title.btm= hct_id,
+         cex.title=1, vlines=c(timepoints), col.vline = "grey",
+         vlab=c(timepoints), 
+         bg.type = "solid",
+         bg.col = "white"
+)
+fishPlot(fish,shape="bezier",title.btm= hct_id,
          cex.title=1, vlines=c(timepoints), col.vline = "grey",
          vlab=c(timepoints), 
          bg.type = "solid",
@@ -283,7 +293,7 @@ timepoints <- c(-140, -42, 142, 292, 365, 463, 544)
 
 frac.table = matrix(
   c(35.1, 28, "27.9", 5, 24,                     0, 0.0001, 0.0001, "0.0001", #-140
-    0.0001, 0.0001, 0.0001, 0.0001, 0.0001,      0.0001, 0.0001, 0.0001, "0.0001", #-42
+    0.0001, 0.0001, 0.0001, 0.00001, 0.0001,      0.0001, 0.00001, 0.0001, "0.0001", #-42
     
     10.8, "10.7", 10, 0.0001, 10,                20.4, 0.0001, 0.0001, "0.0001", #142
     48.2, "48.1", 45, 0.0001, "44.9",            0.0001, "44.8", 0.0001, "44.9", #292
@@ -293,8 +303,9 @@ frac.table = matrix(
     ),
   ncol=length(timepoints))
 frac.table <- matrix(as.numeric(frac.table), ncol=length(timepoints))
-parents = c(0,1, 2, 0, 3, 0, 5, 0, 0)
-fish = createFishObject(frac.table,parents,timepoints=timepoints,
+# parents = c(0,1, 2, 0, 3, 0, 5, 0, 0)
+parents = c(0,1, 2, 5, 3, 0, 5, 0, 0)
+fish = createFishObject(frac.table,parents,timepoints=timepoints, fix.missing.clones=TRUE,
                         col = c("darkblue", "red", "yellow", "pink", "grey", "green", "purple", "black", "purple"),
                         clone.labels = c("DNMT3A	R882C", "DNMT3A", "TET2	M1028Nfs*15", 
                                          "SRSF2	P95R", "SRSF2	P95L", "SH2B3	480_487del", "BCOR	L1646Pfs*6", 
@@ -366,7 +377,7 @@ frac.table = matrix(
     0.0001, 0.00001, 0.00001, 0.00001, 17, 15, 10, #514
     0.0001, 0.00001, 0.00001, 0.00001, 12.9, 13.9, 9.7),
   ncol=length(timepoints))
-parents = c(0,1, 1, 1, 0, 0, 0)
+parents = c(0,1, 1, 1, 0, 0, 6)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
                         col = c("darkblue", "red", "yellow", "pink", "grey", "green", "orange"),
                         clone.labels = c("DNMT3A	E578X", "NRAS	G12D", "DNMT3A	R882H", "IDH1	R132C", 
@@ -428,7 +439,7 @@ parents = c(0,0, 0)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
                         col = c("darkblue", "red", "yellow"),
                         clone.labels = c("U2AF1", "TP53	V104M", "DNMT3A	R882C"))
-fish = layoutClones(fish)
+fish = layoutClones(fish, separate.independent.clones = T)
 
 fishPlot(fish,shape="spline",title.btm= hct_id,
          cex.title=1, vlines=c(timepoints), col.vline = "grey",
