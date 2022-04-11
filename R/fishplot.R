@@ -125,7 +125,7 @@ drawLegend(fish,cex=1.0,xpos=-200)
 
 hct_id <- "hct_705854"
 
-timepoints <- c(-132, -29, 30, 115, 231, 337)    
+timepoints <- c(-132, -29, 0, 30, 115, 231, 337)    
 
 # Donor 0	TET2	Q626X	0.86
 # -132	NA	NA	NA        C
@@ -139,16 +139,17 @@ timepoints <- c(-132, -29, 30, 115, 231, 337)
 frac.table = matrix(
   c(0.0001, 0.0001, 0,
     36.4, 29.7, 0, #-29
-    0.0001, 0.0001, 12.5,
-    0.0001, 0.0001, 11.1,
-    0.0001, 0.0001, 12.3,
-    0.0001, 0.0001, 12.4),
+    0, 0, 0.0001,
+    0, 0, 12.5,
+    0, 0, 11.1,
+    0, 0, 12.3,
+    0, 0, 12.4),
   ncol=length(timepoints))
 parents = c(0,1, 0)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
                         col = c("darkblue", "red", "yellow"),
                         clone.labels = c("NF1	R1362X", "CHEK2	R346C", "TET2	Q626X"))
-fish = layoutClones(fish, separate.independent.clones=T)
+fish = layoutClones(fish)
 
 fishPlot(fish,shape="spline",title.btm= hct_id,
          cex.title=1, vlines=c(timepoints), col.vline = "grey",
@@ -182,7 +183,7 @@ drawLegend(fish,cex=1.0,xpos=-200)
 
 hct_id <- "hct_715231"
 
-timepoints <- c(-233, -23, 86, 363, 727)    
+timepoints <- c(-233, -23, 0,  86, 363, 727)    
 
 # Donor 0	ASXL1	G462fs	0.062
 # -233	IDH2	R140Q	0.4   C
@@ -200,9 +201,10 @@ timepoints <- c(-233, -23, 86, 363, 727)
 frac.table = matrix(
   c(0, 40, 39.9, 10.9, 37.8, 0.0001, # blue, red, yellow, pink, grey, green
     0, 35.6, 36.9, 0.0001, 36.6, 16.3, 
-    11.5, 0.0001, 0.0001, 0.0001, 0.0001, 0.0001, 
-    26.8, 0.0001, 0.0001, 0.0001, 0.0001, 0.0001, 
-    19, 0.0001, 0.0001, 0.0001, 0.0001, 0.0001),
+    0, 0, 0, 0, 0, 0, 
+    11.5, 0, 0, 0, 0, 0, 
+    26.8, 0, 0, 0, 0, 0, 
+    19, 0, 0, 0, 0, 0),
   ncol=length(timepoints))
 parents = c(0, 0, 0, 5, 3, 2)
 
@@ -212,8 +214,9 @@ parents = c(0, 1, 2, 0, 0, 5)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
                         col = c("darkblue", "red", "yellow", "pink", "grey", "green"),
                         clone.labels = c("ASXL1	G462fs", "IDH2 R140Q", "SRSF2	P95R", "SETBP1 D868N", 
-                                         "GNAS R844H", "ASXL1 H630fs"))
-fish = layoutClones(fish, separate.independent.clones=T)
+                                         "GNAS R844H", "ASXL1 H630fs"),
+                        fix.missing.clones=TRUE)
+fish = layoutClones(fish)
 
 fishPlot(fish,shape="spline",title.btm= hct_id,
          cex.title=1, vlines=c(timepoints), col.vline = "grey",
