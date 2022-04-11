@@ -23,7 +23,7 @@ library(fishplot)
 
 hct_id <- "hct_634851"
 
-timepoints <- c(-38, 81, 368, 1011)    
+timepoints <- c(-38, 0, 81, 368, 1011)    
 
 # Donor 0	ASXL1	G642fs	0.111
 # -38	NA	NA	NA
@@ -33,20 +33,21 @@ timepoints <- c(-38, 81, 368, 1011)
 # 1011	ASXL1	G646Wfs*12	0.17    C
 
 frac.table = matrix(
-  c(0, 0,
-    39.7, 0.0001, 
+  c(0, 0, #-38
+    0.0001, 0.0001, #0
+    39.7, 0.0001, #81
     48.1, 4.1, #368
     17, 0.0001),
   ncol=length(timepoints))
 parents = c(0, 1)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
-                        col = c("darkblue", "red"),
+                        col = c("darkblue", "#E9C46A"),
                         clone.labels = c("ASXL1 G642fs", "RUNX1 P425fs"))
 fish = layoutClones(fish)
 
 fishPlot(fish,shape="spline",title.btm= hct_id,
          cex.title=1, vlines=c(timepoints), col.vline = "grey",
-         vlab=c(-38, 0, 81, 368, 1011), 
+         vlab=c(timepoints), 
          bg.type = "solid",
          bg.col = "white"
 )
@@ -75,7 +76,7 @@ drawLegend(fish,cex=1.0,xpos=-200)
 ##################
 hct_id <- "hct_657119"
 
-timepoints <- c(-22, 377, 516)    
+timepoints <- c(-22, 0, 377, 516)    
 
 # Donor 0	ASXL1	L956fs	0.023
 # -22	NA	NA	NA
@@ -83,7 +84,8 @@ timepoints <- c(-22, 377, 516)
 # 516	ASXL1	L956fs	0.01
 
 frac.table = matrix(
-  c(0.0001,
+  c(0,
+    0.0001,
     11.6, 
     1),
   ncol=length(timepoints))
@@ -99,7 +101,7 @@ fishPlot(fish,shape="spline",title.btm= hct_id,
          bg.type = "solid",
          bg.col = "white"
 )
-drawLegend(fish,cex=1.0,xpos=-500, nrow = 4)
+drawLegend(fish,cex=1.0,xpos=-200, nrow = 4)
 
 timepoints <- c(-100, 0, 100)    
 frac.table = matrix(
@@ -139,7 +141,7 @@ timepoints <- c(-132, -29, 0, 30, 115, 231, 337)
 frac.table = matrix(
   c(0.0001, 0.0001, 0,
     36.4, 29.7, 0, #-29
-    0, 0, 0.0001,
+    0, 0, 0.0001, #0
     0, 0, 12.5,
     0, 0, 11.1,
     0, 0, 12.3,
@@ -147,8 +149,8 @@ frac.table = matrix(
   ncol=length(timepoints))
 parents = c(0,1, 0)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
-                        col = c("darkblue", "red", "yellow"),
-                        clone.labels = c("NF1	R1362X", "CHEK2	R346C", "TET2	Q626X"))
+                        col = c("black", "white", "darkblue"),
+                        clone.labels = c("NF1 R1362X", "CHEK2 R346C", "TET2 Q626X"))
 fish = layoutClones(fish)
 
 fishPlot(fish,shape="spline",title.btm= hct_id,
@@ -167,8 +169,8 @@ frac.table = matrix(
   ncol=length(timepoints))
 parents = c(0)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
-                        col = c("yellow"),
-                        clone.labels = c("Donor-TET2	Q626X"))
+                        col = c("darkblue"),
+                        clone.labels = c("Donor-TET2 Q626X"))
 fish = layoutClones(fish)
 
 fishPlot(fish,shape="polygon",title.btm= hct_id,
@@ -199,21 +201,21 @@ timepoints <- c(-233, -23, 0,  86, 363, 727)
 # 727	ASXL1	G462fs	0.19    C
 
 frac.table = matrix(
-  c(0, 40, 39.9, 10.9, 37.8, 0.0001, # blue, red, yellow, pink, grey, green
-    0, 35.6, 36.9, 0.0001, 36.6, 16.3, 
-    0, 0, 0, 0, 0, 0, 
-    11.5, 0, 0, 0, 0, 0, 
-    26.8, 0, 0, 0, 0, 0, 
-    19, 0, 0, 0, 0, 0),
+  c(0,       40, 39.9, 10.9, 37.8, 0.0001, # blue, red, yellow, pink, grey, green
+    0,       37, 36.9, 0.0001, 36.6, 16.3, # change 35.6 to 37
+    0.0001,  0, 0, 0, 0, 0, #0
+    11.5,    0, 0, 0, 0, 0, 
+    26.8,    0, 0, 0, 0, 0, 
+    19,      0, 0, 0, 0, 0),
   ncol=length(timepoints))
-parents = c(0, 0, 0, 5, 3, 2)
+parents = c(0,    0, 2, 5, 3, 5)
 
-frac.table = frac.table[c( 3, 5, 6, 1, 2, 4),]
-parents = c(0, 1, 2, 0, 0, 5)
+# frac.table = frac.table[c( 3, 5, 6, 1, 2, 4),]
+# parents = c(0, 1, 5, 0, 2, 5)
 
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
-                        col = c("darkblue", "red", "yellow", "pink", "grey", "green"),
-                        clone.labels = c("ASXL1	G462fs", "IDH2 R140Q", "SRSF2	P95R", "SETBP1 D868N", 
+                        col = c("darkblue", "purple", "orange", "pink", "grey", "blue"),
+                        clone.labels = c("ASXL1 G462fs", "IDH2 R140Q", "SRSF2 P95R", "SETBP1 D868N", 
                                          "GNAS R844H", "ASXL1 H630fs"),
                         fix.missing.clones=TRUE)
 fish = layoutClones(fish)
@@ -224,12 +226,24 @@ fishPlot(fish,shape="spline",title.btm= hct_id,
          bg.type = "solid",
          bg.col = "white"
 )
-fishPlot(fish,shape="bezier",title.btm= hct_id,
-         cex.title=1, vlines=c(timepoints), col.vline = "grey",
-         vlab=c(timepoints), 
-         bg.type = "solid",
-         bg.col = "white"
-)
+# fishPlot(fish,shape="bezier",title.btm= hct_id,
+#          cex.title=1, vlines=c(timepoints), col.vline = "grey",
+#          vlab=c(timepoints), 
+#          bg.type = "solid",
+#          bg.col = "white"
+# )
+# frac.table = matrix(
+#   c(0, 40, 39.9, 10.9, 37.8, 0.0001, # blue, red, yellow, pink, grey, green
+#     0, 35.6, 36.9, 0.0001, 36.6, 16.3, 
+#     0, 0, 0, 0, 0, 0, #0
+#     11.5, 0, 0, 0, 0, 0, 
+#     26.8, 0, 0, 0, 0, 0, 
+#     19, 0, 0, 0, 0, 0),
+#   ncol=length(timepoints))
+# parents = c(0, 0, 0, 5, 3, 2)
+# 
+# frac.table = frac.table[c( 3, 5, 6, 1, 2, 4),]
+# parents = c(0, 1, 2, 0, 0, 5)
 drawLegend(fish,cex=1.0,xpos=-500, nrow = 4)
 
 timepoints <- c(-100, 0, 100)    
@@ -254,7 +268,7 @@ fishPlot(fish,shape="polygon",title.btm= hct_id,
 drawLegend(fish,cex=1.0,xpos=-200)
 #################
 
-hct_id <- "hct_753399"
+hct_id <- "hct_753399 represented at 0.7 of original size"
 
 timepoints <- c(-140, -42, 0, 142, 292, 365, 463, 544)    
 
@@ -295,29 +309,34 @@ timepoints <- c(-140, -42, 0, 142, 292, 365, 463, 544)
 # 544	NRAS	Q61H	0.25
 
 frac.table = matrix(
-  c(35.1, 28, "27.9", 5, 24,                      0, 0.0001, 0.0001, "0.0001", #-140
-    0.0001, 0.0001, 0.0001, 0.00001, 0.0001,      0.0001, 0.00001, 0.0001, "0.0001", #-42
+  # DNMT3A	R882C, DNMT3A, TET2	M1028Nfs*15, SRSF2	P95R, SRSF2	P95L,
+  #                                             SH2B3	480_487del,
+  #                                                           BCOR	L1646Pfs*6, NRAS	Q61H
+  c(35.1, 28, "27.9", 5, 24,                     0,           0, 0, #-140
+    0.0001, 0.0001, 0.0001, 0.00001, 0.0001,     0,           0, 0, #-42
     
-    0, 0, 0, 0, 0,                               0, 0, 0, 0, #0
+    0, 0, 0, 0, 0,                               0,           0, 0, #0
     
-    10.8, "10.7", 10, 0.0001, 10,                20.4, 0.0001, 0.0001, "0.0001", #142
-    48.2, "48.1", 45, 0.0001, "44.9",            0.0001, "44.8", 0.0001, "44.9", #292
-    33.3, "33.2", 26, 0.0001, "25.9",            7.7, 0.0001, 0.0001, "0.0001", #365
-    "18.1", "18", "17.9", 0.0001, "17.8",        0.0001, 7, 10, "6", #463
-    31.1, 29.6, 29, 0.0001, "28.9",              4.1, 21, 25, "20"
-    ),
+    10.8, "10.7", 10, 0.0001, 10,                20.4,        0.0001, 0.0001, #142
+    48.2, "48.1", 45, 0.0001, "44.9",            0.0001,      90, 0.0001, #292
+    33.3, "33.1", 26, 0.0001, "25.9",            7.7,         0.0001, 0.0001, #365
+    "18.1", "18", "17.9", 0.0001, "17.8",        0.0001,      13, 10, #463
+    31.1, 29.6, 29, 0.0001, "28.9",              4.1,         41, 25),
   ncol=length(timepoints))
 frac.table <- matrix(as.numeric(frac.table), ncol=length(timepoints))
+frac.table <- 0.7 * frac.table
+
 # parents = c(0,1, 2, 0, 3, 0, 5, 0, 0)
-parents = c(0,1, 2, 5, 3, 0, 5, 0, 0)
+parents = c(0,1, 2, 5, 3,                        0,           0, 7)
 fish = createFishObject(frac.table,parents,timepoints=timepoints, fix.missing.clones=TRUE,
-                        col = c("darkblue", "red", "yellow", "pink", "grey", "green", "purple", "black", "purple"),
-                        clone.labels = c("DNMT3A	R882C", "DNMT3A", "TET2	M1028Nfs*15", 
-                                         "SRSF2	P95R", "SRSF2	P95L", "SH2B3	480_487del", "BCOR	L1646Pfs*6", 
-                                         "NRAS	Q61H", "2-BCOR	L1646Pfs*6"
+                        col = c("green", "#407BA7", "#7FDEFF", "brown", "orange", 
+                                "darkblue", 
+                                "purple", "black"),
+                        clone.labels = c("DNMT3A R882C", "DNMT3A", "TET2 M1028Nfs*15", 
+                                         "SRSF2	P95R", "SRSF2 P95L", "SH2B3 480_487del", "BCOR L1646Pfs*6", 
+                                         "NRAS Q61H"
                                          ))
-# fish = layoutClones(fish)
-fish = layoutClones(fish, separate.independent.clones=T)
+fish = layoutClones(fish)
 
 fishPlot(fish,shape="spline",title.btm= hct_id,
          cex.title=1, vlines=c(timepoints), col.vline = "grey",
@@ -325,7 +344,7 @@ fishPlot(fish,shape="spline",title.btm= hct_id,
          bg.type = "solid",
          bg.col = "white"
 )
-drawLegend(fish,cex=1.0,xpos=-500, nrow = 4)
+drawLegend(fish,cex=1.0,xpos=-400, nrow = 4)
 
 timepoints <- c(-100, 0, 100)    
 frac.table = matrix(
@@ -333,9 +352,10 @@ frac.table = matrix(
     36.2,
     36.2),
   ncol=length(timepoints))
+frac.table <- 0.7*frac.table
 parents = c(0)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
-                        col = c("green"),
+                        col = c("darkblue"),
                         clone.labels = c("Donor-SH2B3	480_487del"))
 fish = layoutClones(fish)
 
@@ -346,12 +366,12 @@ fishPlot(fish,shape="polygon",title.btm= hct_id,
          bg.type = "solid",
          bg.col = "transparent"
 )
-drawLegend(fish,cex=1.0,xpos=-200)
+drawLegend(fish,cex=1.0,xpos=-150)
 #################
 
 hct_id <- "hct_753525"
 
-timepoints <- c(-114, -16, 42, 84, 346, 514, 684)    
+timepoints <- c(-114, -16, 0, 42, 84, 346, 514, 684)    
 
 # Donor 0	DNMT3A	P904L	0.116
 # -114	DNMT3A	E578X	0.459
@@ -374,20 +394,23 @@ timepoints <- c(-114, -16, 42, 84, 346, 514, 684)
 # 684	RUNX1	I177V	0.097
 
 frac.table = matrix(
-  c(45.9, 22.1, 0.0001, 22.1,        0.0001, 0.0001, 0.0001, #-114
-    9.5, 0.0001, 9.4, 0.0001,        0.0001, 0.0001, 0.0001, #-16 ###### Change 5.1 to 9.5
-    0.0001, 0.00001, 0.00001, 0.00001, 17.9, 19.9, 11.6, #42
-    0.0001, 0.00001, 0.00001, 0.00001, 18.1, 0.0001, 0.0001, #84
-    0.0001, 0.00001, 0.00001, 0.00001, 15.6, 15.5, 10.4, #346
-    0.0001, 0.00001, 0.00001, 0.00001, 17, 15, 10, #514
-    0.0001, 0.00001, 0.00001, 0.00001, 12.9, 13.9, 9.7),
+  c(0, 45.9, 22.1, 0.0001, 22.1,        0, 0, #-114
+    0, 9.5, 0.0001, 9.4, 0.0001,        0, 0, #-16 ###### Change 5.1 to 9.5
+    
+    0.0001, 0, 0, 0, 0,                      0.0001, 0.0001, # 0
+    
+    17.9, 0, 0, 0, 0,                      19.9, 11.6, #42
+    18.1, 0, 0, 0, 0,                      0.0001, 0.0001, #84
+    15.6, 0, 0, 0, 0,                      15.5, 10.4, #346
+    17, 0, 0, 0, 0,                      15, 10, #514
+    12.9, 0, 0, 0, 0,                      13.9, 9.7),
   ncol=length(timepoints))
-parents = c(0,1, 1, 1, 0, 0, 6)
+parents = c(0,0,2, 2, 2,                0, 6)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
-                        col = c("darkblue", "red", "yellow", "pink", "grey", "green", "orange"),
-                        clone.labels = c("DNMT3A	E578X", "NRAS	G12D", "DNMT3A	R882H", "IDH1	R132C", 
-                                         "DNMT3A	P904L", "KRAS	T50I", "RUNX1	I177V"))
-fish = layoutClones(fish, separate.independent.clones = T)
+                        col = c("darkblue", "slateblue", "black", "lightblue", "purple", "green", "#E9C46A"),
+                        clone.labels = c("DNMT3A P904L", "DNMT3A E578X", "NRAS G12D", "DNMT3A R882H", "IDH1 R132C", 
+                                         "KRAS T50I", "RUNX1 I177V"))
+fish = layoutClones(fish)
 
 fishPlot(fish,shape="spline",title.btm= hct_id,
          cex.title=1, vlines=c(timepoints), col.vline = "grey",
@@ -395,7 +418,7 @@ fishPlot(fish,shape="spline",title.btm= hct_id,
          bg.type = "solid",
          bg.col = "white"
 )
-drawLegend(fish,cex=1.0,xpos=-200)
+drawLegend(fish,cex=1.0,xpos=-250, nrow = 4)
 
 timepoints <- c(-100, 0, 100)    
 frac.table = matrix(
@@ -405,7 +428,7 @@ frac.table = matrix(
   ncol=length(timepoints))
 parents = c(0)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
-                        col = c("grey"),
+                        col = c("darkblue"),
                         clone.labels = c("DNMT3A P904L"))
 fish = layoutClones(fish)
 
@@ -416,12 +439,12 @@ fishPlot(fish,shape="polygon",title.btm= hct_id,
          bg.type = "solid",
          bg.col = "transparent"
 )
-drawLegend(fish,cex=1.0,xpos=-200)
+drawLegend(fish,cex=1.0,xpos=-150)
 #################
 
 hct_id <- "hct_769464"
 
-timepoints <- c(-114, -23, 98, 339, 538, 696)    
+timepoints <- c(-114, -23, 0, 98, 339, 538, 696)    
 
 # Donor 0	DNMT3A	R882C	0.038
 # -114	U2AF1	Q157R	0.322
@@ -433,18 +456,20 @@ timepoints <- c(-114, -23, 98, 339, 538, 696)
 # 696	DNMT3A	R882C	0.147
 
 frac.table = matrix(
-  c(32.2, 0.0001, 0.0001,  #-114
+  c(32.2, 0, 0,  #-114
     0.0001, 0.0001, 0.0001,  #-23
-    0.0001, 3.8, 10,  #98
-    0.0001, 0.0001, 15.1,  #339
-    0.0001, 0.0001, 16.5,  #538
-    0.0001, 0.0001, 14.7),
+    0, 0, 0,  #0
+    0, 3.8, 10,  #98
+    0, 0.0001, 15.1,  #339
+    0, 0.0001, 16.5,  #538
+    0, 0.0001, 14.7),
   ncol=length(timepoints))
 parents = c(0,0, 0)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
-                        col = c("darkblue", "red", "yellow"),
-                        clone.labels = c("U2AF1", "TP53	V104M", "DNMT3A	R882C"))
-fish = layoutClones(fish, separate.independent.clones = T)
+                        col = c("yellow", "red", "darkblue"),
+                        clone.labels = c("U2AF1", "TP53 V104M", "DNMT3A R882C"),
+                        fix.missing.clones=TRUE)
+fish = layoutClones(fish)
 
 fishPlot(fish,shape="spline",title.btm= hct_id,
          cex.title=1, vlines=c(timepoints), col.vline = "grey",
@@ -452,7 +477,7 @@ fishPlot(fish,shape="spline",title.btm= hct_id,
          bg.type = "solid",
          bg.col = "white"
 )
-drawLegend(fish,cex=1.0,xpos=-500, nrow = 4)
+drawLegend(fish,cex=1.0,xpos=-450, nrow = 4)
 
 timepoints <- c(-100, 0, 100)    
 frac.table = matrix(
@@ -462,7 +487,7 @@ frac.table = matrix(
   ncol=length(timepoints))
 parents = c(0)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
-                        col = c("yellow"),
+                        col = c("darkblue"),
                         clone.labels = c("DNMT3A R882C"))
 fish = layoutClones(fish)
 
@@ -481,184 +506,6 @@ drawLegend(fish,cex=1.0,xpos=-200)
 
 
 
-
-
-# # Principle
-# timepoints=c(0,30,75,150)      
-# 
-# #provide a matrix with the fraction of each population
-# #present at each timepoint
-# frac.table = matrix(
-#   c(100, 45, 00, 00,
-#     02, 00, 00, 00,
-#     02, 00, 02, 01,
-#     98, 00, 95, 40),
-#   ncol=length(timepoints))
-# 
-# parents = c(0,1,1,3)
-# 
-# #create a fish object
-# fish = createFishObject(frac.table,parents,timepoints=timepoints)
-# 
-# #calculate the layout of the drawing
-# fish = layoutClones(fish)
-# 
-# #draw the plot, using the splining method (recommended)
-# #and providing both timepoints to label and a plot title
-# fishPlot(fish,shape="spline",title.btm="Sample1",
-#          cex.title=1, vlines=c(0,150), 
-#          vlab=c("day 0","day 150"))
-
-# hct634851_data <- 
-  hct634851 %>% 
-  pivot_longer(cols = c(Date_recipient, VAF_recipient))
-
-  hct634851 %>% 
-    pivot_longer(cols = c(Date_recipient))
-  
-
-a <- "hct634851"
-
-timepoints1=c(as.numeric(hct634851$Time_from_HCT))      
-frac.table = matrix( # 28.5, 0.06, 0.0 # 7.5, 84.1, 9.8
-  c(0.0001, 0.0001, 
-    0.0001, 0.0001,
-    4.1, 0.0001,
-    4.1, 17),
-  ncol=length(timepoints1))
-parents = c(0,0) # "RUNX1 P425fs", "ASXL1 G646Wfs*12"
-fish = createFishObject(frac.table,parents,timepoints=timepoints1,
-                        col = c("darkblue", "red"),
-                        clone.labels = c("RUNX1 P425fs", "ASXL1 G646Wfs*12"))
-fish = layoutClones(fish)
-
-fishPlot(fish,shape="spline",title.btm= hct634851$HCT_id,
-         cex.title=1, vlines=c(timepoints1), col.vline = "grey",
-         vlab=c(hct634851$Time_from_HCT), 
-         bg.type = "solid",
-         bg.col = "white"
-         )
-drawLegend(fish,cex=1.0,xpos=-500, nrow = 4)
-
-
-
-# #Case1
-# timepoints=c(0,150)      
-# frac.table = matrix( # 28.5, 0.06, 0.0 # 7.5, 84.1, 9.8
-#   c(28.5, 0.06, 0.0001,
-#     7.5, 84.1, 9.8),
-#   ncol=length(timepoints))
-# parents = c(0,0, 2) # "TET2", "TP53", "KMT2A"
-# fish = createFishObject(frac.table,parents,timepoints=timepoints,
-#                         col = c("darkblue", "red", "gold"),
-#                         clone.labels = c("TET2", "TP53", "KMT2A"))
-# fish = layoutClones(fish)
-# 
-# # jpeg("Case1 fishplot.jpeg", width = 960, height = 480)
-# fishPlot(fish,shape="spline",title.btm="Case1",
-#          cex.title=1, vlines=c(0,150), col.vline = "grey",
-#          vlab=c("ARCH","T"), bg.type = "solid",
-#          bg.col = "white")
-# drawLegend(fish,cex=1.0,xpos=-500, nrow = 4)
-# # dev.off()
-# 
-# #Case3
-# timepoints=c(0,150)      
-# frac.table = matrix( 
-#   c(14.6,
-#     53.1),
-#   ncol=length(timepoints))
-# parents = c(0) # "TP53"
-# fish = createFishObject(frac.table,parents,timepoints=timepoints,
-#                         col = c("red"),
-#                         clone.labels = c("TP53"))
-# fish = layoutClones(fish)
-# 
-# jpeg("Case3 fishplot.jpeg", width = 960, height = 480)
-# fishPlot(fish,shape="spline",title.btm="Case3",
-#          cex.title=1, vlines=c(0,150), col.vline = "grey",
-#          vlab=c("ARCH","T"), bg.type = "solid",
-#          bg.col = "white")
-# drawLegend(fish,cex=1.0,xpos=-500, nrow = 4)
-# dev.off()
-# 
-# #Case6
-# timepoints=c(0,150)      
-# frac.table = matrix( 
-#   c(3, 2, 0.0001,
-#     49, 23, 14),
-#   ncol=length(timepoints))
-# parents = c(0,1,1) # "TP53", "PTPN11", "RUNX1", "KRAS", , "RUNX1"
-# fish = createFishObject(frac.table,parents,timepoints=timepoints,
-#                         col = c("red", "grey", "#6300A7FF"#, #6300A7FF" "rosybrown1", "lightgreen"
-#                         ),
-#                         clone.labels = c("TP53", "KRAS", "PTPN11")) # "sandybrown", "lightslateblue" 
-# fish = layoutClones(fish)
-# 
-# jpeg("Case6 fishplot 2.jpeg", width = 960, height = 480)
-# fishPlot(fish,shape="spline",title.btm="Case6",
-#          cex.title=1, vlines=c(0,150), col.vline = "grey",
-#          vlab=c("ARCH","T"), bg.type = "solid",
-#          bg.col = "white")
-# drawLegend(fish,cex=1.0,xpos=-500, nrow = 4)
-# dev.off()
-# 
-# #Case7
-# timepoints=c(0,150)      
-# frac.table = matrix( 
-#   c(3.7, 3.9,
-#     38.0, 40.0),
-#   ncol=length(timepoints))
-# parents = c(0,0) # "TP53", "TP53"
-# fish = createFishObject(frac.table,parents,timepoints=timepoints,
-#                         col = c("red", "red"),
-#                         clone.labels = c("TP53", "TP53"))
-# fish = layoutClones(fish)
-# 
-# jpeg("Case7 fishplot.jpeg", width = 960, height = 480)
-# fishPlot(fish,shape="spline",title.btm="Case7",
-#          cex.title=1, vlines=c(0,150), col.vline = "grey",
-#          vlab=c("ARCH","T"), bg.type = "solid",
-#          bg.col = "white")
-# drawLegend(fish,cex=1.0,xpos=-500, nrow = 4)
-# dev.off()
-# 
-# #Case10
-# timepoints=c(0,150)      
-# frac.table = matrix( 
-#   c(21.4, 4.9, 2.5,
-#     37.1, 0.0, 35.7),
-#   ncol=length(timepoints))
-# parents = c(0,1, 1) # "U2QR1", "BCOR", "TEV6"
-# fish = createFishObject(frac.table,parents,timepoints=timepoints,
-#                         col = c("grey", "chocolate2", "thistle2"),
-#                         clone.labels = c("U2QR1", "BCOR", "TEV6"))
-# fish = layoutClones(fish)
-# 
-# jpeg("Case10 fishplot.jpeg", width = 960, height = 480)
-# fishPlot(fish,shape="spline",title.btm="Case10",
-#          cex.title=1, vlines=c(0,150), col.vline = "grey",
-#          vlab=c("ARCH","T"), bg.type = "solid",
-#          bg.col = "white")
-# drawLegend(fish,cex=1.0,xpos=-500, nrow = 4)
-# dev.off()
-# 
-# #Case13
-# timepoints=c(0,150)      
-# frac.table = matrix( 
-#   c(3.3,
-#     27.0),
-#   ncol=length(timepoints))
-# parents = c(0) # "TET2"
-# fish = createFishObject(frac.table,parents,timepoints=timepoints,
-#                         col = c("darkblue"),
-#                         clone.labels = c("TET2"))
-# fish = layoutClones(fish)
-# 
 # jpeg("Case13 fishplot.jpeg", width = 960, height = 480)
-# fishPlot(fish,shape="spline",title.btm="Case13",
-#          cex.title=1, vlines=c(0,150), col.vline = "grey",
-#          vlab=c("ARCH","T"), bg.type = "solid",
-#          bg.col = "white")
-# drawLegend(fish,cex=1.0,xpos=-500, nrow = 4)
+
 # dev.off()
