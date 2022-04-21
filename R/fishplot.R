@@ -1,7 +1,7 @@
 library(tidyverse)
-install.packages("devtools")
+# install.packages("devtools")
 library(devtools)
-install_github("chrisamiller/fishplot")
+# install_github("chrisamiller/fishplot")
 library(fishplot)
 
 # ################################################################################# I ### Load data
@@ -18,9 +18,18 @@ library(fishplot)
 #   # Keep only sequencing from clinical when have 2 platform data for the same date
 #   arrange(hct_id, Sample_Type, Date_of_Collection, desc(NGS_Type)) %>% 
 #   distinct(hct_id, Sample_Type, Date_of_Collection, GENE, VARIANT_P, .keep_all = TRUE)
-# 
-# 
-# 
+
+
+# IDENTIFY CO-OCCURENCE AND MUTUAL EXCLUSIVITY in clones apparition
+# In https://www.cbioportal.org/
+# Select the cancer study (here acute myeloid and Myelodysplastic)
+# Query by gene ex: ASXL1 RUNX1
+# In the Mutual exclusivity tab, will show co-occurence or mutual exclusivity
+
+
+
+
+
 # ################################################################################# II ### Fish plots
 
 hct_id <- "hct_634851"
@@ -151,7 +160,7 @@ frac.table = matrix(
     0, 0, 12.3,
     0, 0, 12.4),
   ncol=length(timepoints))
-parents = c(0,1, 0)
+parents = c(0,0, 0)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
                         col = c("black", "grey90", "darkblue"),
                         clone.labels = c("NF1 R1362X", "CHEK2 R346C", "TET2 Q626X"))
@@ -409,7 +418,7 @@ frac.table = matrix(
     17, 0, 0, 0, 0,                      15, 10, #514
     12.9, 0, 0, 0, 0,                      13.9, 9.7),
   ncol=length(timepoints))
-parents = c(0,0,2, 2, 2,                0, 6)
+parents = c(0,0,2, 2, 3,                0, 6)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
                         col = c("darkblue", "#0077B6", "peachpuff", "#90E0EF", "#E0C3FC", "#70e000", "#ffff3f"),
                         clone.labels = c("DNMT3A P904L", "DNMT3A E578X", "NRAS G12D", "DNMT3A R882H", "IDH1 R132C", 
