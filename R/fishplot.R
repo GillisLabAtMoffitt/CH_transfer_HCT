@@ -160,7 +160,8 @@ frac.table = matrix(
     0, 0, 12.3,
     0, 0, 12.4),
   ncol=length(timepoints))
-parents = c(0,0, 0)
+# CHEK2	NF1	0.695	0.695	Mutual exclusivity
+parents = c(0,1, 0)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
                         col = c("black", "grey90", "darkblue"),
                         clone.labels = c("NF1 R1362X", "CHEK2 R346C", "TET2 Q626X"))
@@ -221,6 +222,17 @@ frac.table = matrix(
     26.8,    0, 0, 0, 0, 0, 
     19,      0, 0, 0, 0, 0),
   ncol=length(timepoints))
+# ASXL1	SRSF2	<0.001	<0.001	 Co-occurrence
+# IDH2	SRSF2	<0.001	<0.001	 Co-occurrence
+# SRSF2	GNAS	<0.001	<0.001	 Co-occurrence
+# ASXL1	IDH2	<0.001	<0.001	 Co-occurrence
+# ASXL1	GNAS	0.342	0.685	 Co-occurrence
+# IDH2	GNAS	0.541	0.878	 Co-occurrence
+# IDH2	SERBP1	0.645	0.878	 Mutual exclusivity
+# SRSF2	SERBP1	0.750	0.878	 Mutual exclusivity
+# ASXL1	SERBP1	0.790	0.878	 Mutual exclusivity
+# SERBP1	GNAS	0.970	0.970	 Mutual exclusivity
+
 parents = c(0,    0, 2, 5, 3, 5)
 
 # frac.table = frac.table[c( 3, 5, 6, 1, 2, 4),]
@@ -281,7 +293,7 @@ fishPlot(fish,shape="polygon",title.btm= hct_id,
 drawLegend(fish,cex=1.0,xpos=fish@timepoints[1])
 #################
 
-hct_id <- "hct_753399 represented \nat 0.7 of original size"
+hct_id <- "hct_753399 represented \nat 0.5 of original size"
 
 timepoints <- c(-140, -42, 0, 142, 292, 365, 463, 544)    
 
@@ -331,22 +343,33 @@ frac.table = matrix(
     0, 0, 0, 0, 0,                               0,           0, 0, #0
     
     10.8, "10.7", 10, 0.0001, 10,                20.4,        0.0001, 0.0001, #142
-    48.2, "48.1", 45, 0.0001, "44.9",            0.0001,      90, 0.0001, #292
-    33.3, "33.1", 26, 0.0001, "25.9",            7.7,         0.0001, 0.0001, #365
-    "18.1", "18", "17.9", 0.0001, "17.8",        0.0001,      13, 10, #463
-    31.1, 29.6, 29, 0.0001, "28.9",              4.1,         41, 25),
+    48.2, "48.1", 45, 0.0001, 50.6,            0.0001,      90, 0.0001, #292
+    33.3, "33.1", 26, 0.0001, 37.5,            7.7,         0.0001, 0.0001, #365
+    "18.1", "18", "17.9", 0.0001, 18,        0.0001,      13, 10, #463
+    31.1, 29.6, 29, 0.0001, 34.6,              4.1,         41, 25),
   ncol=length(timepoints))
 frac.table <- matrix(as.numeric(frac.table), ncol=length(timepoints))
-frac.table <- 0.7 * frac.table
+frac.table <- 0.5 * frac.table
+
+# TET2	SRSF2	<0.001	<0.001 Co-occurrence
+# DNMT3A	SRSF2	<0.001	<0.001	Mutual exclusivity
+# SRSF2	BCOR	<0.001	<0.001	Co-occurrence
+# TET2	NRAS	<0.001	0.002	Mutual exclusivity
+# DNMT3A	TET2	0.128	0.253	Mutual exclusivity
+# BCOR	NRAS	0.160	0.253	Co-occurrence
+# DNMT3A	BCOR	0.177	0.253	Co-occurrence
+# DNMT3A	NRAS	0.241	0.301	Co-occurrence
+# TET2	BCOR	0.297	0.331	Mutual exclusivity
+# SRSF2	NRAS	0.500	0.500	Mutual exclusivity
 
 # parents = c(0,1, 2, 0, 3, 0, 5, 0, 0)
-parents = c(0,1, 2, 5, 3,                        0,           0, 7)
+parents = c(0,1, 2, 5, 0,                        0,           0, 7)
 fish = createFishObject(frac.table,parents,timepoints=timepoints, fix.missing.clones=TRUE,
                         col = c("#407BA7", "#7FDEFF", "#62B6CB", "brown", "#ee6c4d", 
                                 "darkblue", 
                                 "peachpuff", "pink4"),
                         clone.labels = c("DNMT3A R882C", "DNMT3A", "TET2 M1028Nfs*15", 
-                                         "SRSF2	P95R", "SRSF2 P95L", "SH2B3 480_487del", "BCOR L1646Pfs*6", 
+                                         "SRSF2 P95R", "SRSF2 P95L", "SH2B3 480_487del", "BCOR L1646Pfs*6", 
                                          "NRAS Q61H"
                                          ))
 fish = layoutClones(fish)
@@ -365,7 +388,7 @@ frac.table = matrix(
     36.2,
     36.2),
   ncol=length(timepoints))
-frac.table <- 0.7*frac.table
+frac.table <- 0.5*frac.table
 parents = c(0)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
                         col = c("darkblue"),
@@ -418,6 +441,17 @@ frac.table = matrix(
     17, 0, 0, 0, 0,                      15, 10, #514
     12.9, 0, 0, 0, 0,                      13.9, 9.7),
   ncol=length(timepoints))
+# DNMT3A	IDH1	<0.001	<0.001	Co-occurrence
+# KRAS	NRAS	<0.001	<0.001	Co-occurrence
+# DNMT3A	RUNX1	<0.001	0.002	Mutual exclusivity
+# IDH1	NRAS	0.008	0.019	Co-occurrence
+# RUNX1	NRAS	0.057	0.095	Co-occurrence
+# IDH1	RUNX1	0.057	0.095	Co-occurrence
+# DNMT3A	KRAS	0.077	0.110	Mutual exclusivity
+# IDH1	KRAS	0.103	0.129	Mutual exclusivity
+# DNMT3A	NRAS	0.241	0.267	Co-occurrence
+# KRAS	RUNX1	0.345	0.345	Co-occurrence
+
 parents = c(0,0,2, 2, 3,                0, 6)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
                         col = c("darkblue", "#0077B6", "peachpuff", "#90E0EF", "#E0C3FC", "#70e000", "#ffff3f"),
@@ -477,6 +511,9 @@ frac.table = matrix(
     0, 0.0001, 16.5,  #538
     0, 0.0001, 14.7),
   ncol=length(timepoints))
+
+# DNMT3A	TP53	<0.001	<0.001	Mutual exclusivity
+
 parents = c(0,0, 0)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
                         col = c("gold", "red", "darkblue"),
