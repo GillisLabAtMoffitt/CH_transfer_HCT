@@ -52,12 +52,12 @@ frac.table = matrix(
   ncol=length(timepoints))
 parents = c(0, 1)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
-                        col = c("darkblue", "#ffff3f"),
+                        col = c("red", "#ffff3f"),
                         clone.labels = c("ASXL1 G642fs", "RUNX1 P425fs"))
 fish = layoutClones(fish)
 
 fishPlot(fish,shape="spline",title.btm= hct_id,
-         cex.title=1, vlines=c(timepoints), col.vline = "grey",
+         cex.title=1, vlines=c(timepoints), col.vline = "gainsboro",
          vlab=c(timepoints), 
          pad.left = 0,
          bg.type = "solid",
@@ -73,7 +73,7 @@ frac.table = matrix(
   ncol=length(timepoints))
 parents = c(0)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
-                        col = c("darkblue"),
+                        col = c("red"),
                         clone.labels = c("Donor-ASXL1 G642fs"))
 fish = layoutClones(fish)
 
@@ -103,12 +103,12 @@ frac.table = matrix(
   ncol=length(timepoints))
 parents = c(0)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
-                        col = c("darkblue"),
+                        col = c("red"),
                         clone.labels = c("ASXL1 L956fs"))
 fish = layoutClones(fish)
 
 fishPlot(fish,shape="spline",title.btm= hct_id,
-         cex.title=1, vlines=c(timepoints), col.vline = "grey",
+         cex.title=1, vlines=c(timepoints), col.vline = "gainsboro",
          pad.left = 0,
          vlab=c(timepoints), 
          bg.type = "solid",
@@ -124,7 +124,7 @@ frac.table = matrix(
   ncol=length(timepoints))
 parents = c(0)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
-                        col = c("darkblue"),
+                        col = c("red"),
                         clone.labels = c("Donor-ASXL1 L956fs"))
 fish = layoutClones(fish)
 
@@ -163,12 +163,12 @@ frac.table = matrix(
 # CHEK2	NF1	0.695	0.695	Mutual exclusivity
 parents = c(0,1, 0)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
-                        col = c("black", "grey90", "darkblue"),
+                        col = c("black", "grey90", "red"),
                         clone.labels = c("NF1 R1362X", "CHEK2 R346C", "TET2 Q626X"))
 fish = layoutClones(fish)
 
 fishPlot(fish,shape="spline",title.btm= hct_id,
-         cex.title=1, vlines=c(timepoints), col.vline = "grey",
+         cex.title=1, vlines=c(timepoints), col.vline = "gainsboro",
          vlab=c(timepoints), 
          bg.type = "solid",
          bg.col = "white"
@@ -183,7 +183,7 @@ frac.table = matrix(
   ncol=length(timepoints))
 parents = c(0)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
-                        col = c("darkblue"),
+                        col = c("red"),
                         clone.labels = c("Donor-TET2 Q626X"))
 fish = layoutClones(fish)
 
@@ -239,18 +239,19 @@ parents = c(0,    0, 2, 5, 3, 5)
 # parents = c(0, 1, 5, 0, 2, 5)
 
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
-                        col = c("darkblue", "#E0C3FC", "chocolate2", "#06D6A0", "#f9dcc4", "blue"),
+                        col = c("red", "darkorchid", "green", "sienna1", "grey67", "blue"),
                         clone.labels = c("ASXL1 G462fs", "IDH2 R140Q", "SRSF2 P95R", "SETBP1 D868N", 
                                          "GNAS R844H", "ASXL1 H630fs"),
                         fix.missing.clones=TRUE)
 fish = layoutClones(fish)
 
 fishPlot(fish,shape="spline",title.btm= hct_id,
-         cex.title=1, vlines=c(timepoints), col.vline = "grey",
+         cex.title=1, vlines=c(timepoints), col.vline = "gainsboro",
          vlab=c(timepoints), 
          bg.type = "solid",
          bg.col = "white"
 )
+drawLegend(fish,cex=1.0,xpos=fish@timepoints[1], nrow = 4)
 # fishPlot(fish,shape="bezier",title.btm= hct_id,
 #          cex.title=1, vlines=c(timepoints), col.vline = "grey",
 #          vlab=c(timepoints), 
@@ -269,7 +270,6 @@ fishPlot(fish,shape="spline",title.btm= hct_id,
 # 
 # frac.table = frac.table[c( 3, 5, 6, 1, 2, 4),]
 # parents = c(0, 1, 2, 0, 0, 5)
-drawLegend(fish,cex=1.0,xpos=fish@timepoints[1], nrow = 4)
 
 timepoints <- c(-100, 0, 100)    
 frac.table = matrix(
@@ -279,7 +279,7 @@ frac.table = matrix(
   ncol=length(timepoints))
 parents = c(0)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
-                        col = c("darkblue"),
+                        col = c("red"),
                         clone.labels = c("Donor-ASXL1 G462fs"))
 fish = layoutClones(fish)
 
@@ -365,9 +365,10 @@ frac.table <- 0.5 * frac.table
 # parents = c(0,1, 2, 0, 3, 0, 5, 0, 0)
 parents = c(0,1, 2, 5, 0,                        0,           0, 7)
 fish = createFishObject(frac.table,parents,timepoints=timepoints, fix.missing.clones=TRUE,
-                        col = c("#407BA7", "#7FDEFF", "#62B6CB", "brown", "#ee6c4d", 
-                                "darkblue", 
-                                "peachpuff", "pink4"),
+                        col = c("darkblue", "slategray1", "darkorange1", 
+                                "green", "forestgreen", 
+                                "red", 
+                                "purple4", "gold"),
                         clone.labels = c("DNMT3A R882C", "DNMT3A", "TET2 M1028Nfs*15", 
                                          "SRSF2 P95R", "SRSF2 P95L", "SH2B3 480_487del", "BCOR L1646Pfs*6", 
                                          "NRAS Q61H"
@@ -375,7 +376,7 @@ fish = createFishObject(frac.table,parents,timepoints=timepoints, fix.missing.cl
 fish = layoutClones(fish)
 
 fishPlot(fish,shape="spline",title.btm= hct_id,
-         cex.title=1, vlines=c(timepoints), col.vline = "grey",
+         cex.title=1, vlines=c(timepoints), col.vline = "gainsboro",
          vlab=c(timepoints), 
          bg.type = "solid",
          bg.col = "white"
@@ -391,7 +392,7 @@ frac.table = matrix(
 frac.table <- 0.5*frac.table
 parents = c(0)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
-                        col = c("darkblue"),
+                        col = c("red"),
                         clone.labels = c("Donor-SH2B3	480_487del"))
 fish = layoutClones(fish)
 
@@ -454,13 +455,13 @@ frac.table = matrix(
 
 parents = c(0,0,2, 2, 3,                0, 6)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
-                        col = c("darkblue", "#0077B6", "peachpuff", "#90E0EF", "#E0C3FC", "#70e000", "#ffff3f"),
+                        col = c("red", "slategray1", "gold", "darkblue", "blueviolet", "#70e000", "#ffff3f"),
                         clone.labels = c("DNMT3A P904L", "DNMT3A E578X", "NRAS G12D", "DNMT3A R882H", "IDH1 R132C", 
                                          "KRAS T50I", "RUNX1 I177V"))
 fish = layoutClones(fish)
 
 fishPlot(fish,shape="spline",title.btm= hct_id,
-         cex.title=1, vlines=c(timepoints), col.vline = "grey",
+         cex.title=1, vlines=c(timepoints), col.vline = "gainsboro",
          vlab=c(timepoints), 
          bg.type = "solid",
          bg.col = "white"
@@ -475,7 +476,7 @@ frac.table = matrix(
   ncol=length(timepoints))
 parents = c(0)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
-                        col = c("darkblue"),
+                        col = c("red"),
                         clone.labels = c("DNMT3A P904L"))
 fish = layoutClones(fish)
 
@@ -516,13 +517,13 @@ frac.table = matrix(
 
 parents = c(0,0, 0)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
-                        col = c("gold", "red", "darkblue"),
+                        col = c("orange", "blue", "red"),
                         clone.labels = c("U2AF1", "TP53 V104M", "DNMT3A R882C"),
                         fix.missing.clones=TRUE)
 fish = layoutClones(fish)
 
 fishPlot(fish,shape="spline",title.btm= hct_id,
-         cex.title=1, vlines=c(timepoints), col.vline = "grey",
+         cex.title=1, vlines=c(timepoints), col.vline = "gainsboro",
          vlab=c(timepoints), 
          bg.type = "solid",
          bg.col = "white"
@@ -537,7 +538,7 @@ frac.table = matrix(
   ncol=length(timepoints))
 parents = c(0)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
-                        col = c("darkblue"),
+                        col = c("red"),
                         clone.labels = c("DNMT3A R882C"))
 fish = layoutClones(fish)
 
