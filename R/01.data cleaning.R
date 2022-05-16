@@ -13,8 +13,13 @@ clinical <-
            "/data/CICPT2144_cleaned vcf_01.21.22_reviewed w EHR and raw vcf_03.30.22__MUTATIONS.xlsx"),
     sheet = "ClinicalData")
 
+calls_CH <- readxl::read_xlsx(
+  paste0(path, 
+         "/data/MCCdonors_CH calls cleaned_04.29.21.xlsx"),
+  sheet = "MCCdonors_CH calls cleaned_04.2")
 
 # Date cleaning
+## Clinical
 clinical <- clinical %>% 
   select(-c(primedx.y, bmt_date.y), primedx = primedx.x, bmt_date = bmt_date.x) %>%
   mutate(across("rec_cmv_result", ~na_if(., "NA"))) %>% 
@@ -51,16 +56,20 @@ clinical <- clinical %>%
              end = relapse_date)/
            duration(n=1, units = "days"))
 
-
 write_rds(clinical, "clinical.rds")
 
 
+## CH calls
+calls_CH <- calls_CH %>% 
+  mutate(CH_status = case_when(
+    !is.na(CHROM)                      ~ "CH",
+    is.na(CHROM)                       ~ "No CH"
+  ))
+
+write_rds(calls_CH, "calls_CH.rds")
 
 
-
-
-
-
+# End Cleaning
 
 
 

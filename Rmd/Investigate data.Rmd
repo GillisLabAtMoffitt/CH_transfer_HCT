@@ -48,13 +48,23 @@ library(survminer)
 ```{r load}
 clinical <-
   read_rds("/Users/colinccm/Documents/GitHub/Gillis/CH_transfer_HCT/clinical.rds")
+calls_CH <-
+  read_rds("/Users/colinccm/Documents/GitHub/Gillis/CH_transfer_HCT/calls_CH.rds")
 ```
+
+```{r bind data}
+bmt_data <- left_join(calls_CH, clinical,
+                      by = c("RecipientMRN" = "recipient_mrn"))
+```
+
+
+
 
 
 # Per Patients data
 ## Variables
 ```{r}
-clinical %>% 
+bmt_data %>% 
   select(age_bmt, donor_age, race, don_race, sex, don_sex,
          rec_cmv_result, don_cmv_res, karnofsky_score,
          disease_status, conditioning_reg, 
@@ -67,39 +77,40 @@ clinical %>%
 <div class = "row">
 <div class = "col-md-6">
 ```{r}
-clinical %>%
+bmt_data %>%
   select(age_bmt, donor_age, race, don_race, sex, don_sex,
          rec_cmv_result, don_cmv_res, karnofsky_score,
          disease_status, conditioning_reg, 
-         # plt20status, 
-         anc500status) %>%
+         plt20status
+         # anc500status
+         ) %>%
   tbl_uvregression(method = survival::coxph,
-                 y = (Surv(time = clinical$os_time, 
-                           event = clinical$os_event)),
+                 y = (Surv(time = bmt_data$os_time, 
+                           event = bmt_data$os_event)),
                  exponentiate = TRUE) %>% 
   bold_p(t = .05) %>% add_nevent(location = "level") %>% add_n(location = "level")
 
-clinical %>%
-  select(
-         plt20status) %>%
-  tbl_uvregression(method = survival::coxph,
-                 y = (Surv(time = clinical$os_time, 
-                           event = clinical$os_event)),
-                 exponentiate = TRUE) %>% 
-  bold_p(t = .05) %>% add_nevent(location = "level") %>% add_n(location = "level")
+# bmt_data %>%
+#   select(
+#          plt20status) %>%
+#   tbl_uvregression(method = survival::coxph,
+#                  y = (Surv(time = bmt_data$os_time, 
+#                            event = bmt_data$os_event)),
+#                  exponentiate = TRUE) %>% 
+#   bold_p(t = .05) %>% add_nevent(location = "level") %>% add_n(location = "level")
 ```
 </div>
 
 <div class = "col-md-6">
 ```{r}
-clinical %>%
+bmt_data %>%
   select(age_bmt, donor_age, race, don_race, sex, don_sex,
          rec_cmv_result, don_cmv_res, karnofsky_score,
          disease_status, conditioning_reg, 
-         plt20status, anc500status) %>%
+         plt20status) %>%
   tbl_uvregression(method = survival::coxph,
-                 y = (Surv(time = clinical$relapse_time, 
-                           event = clinical$relapse_event)),
+                 y = (Surv(time = bmt_data$relapse_time, 
+                           event = bmt_data$relapse_event)),
                  exponentiate = TRUE) %>% 
   bold_p(t = .05) %>% add_nevent(location = "level") %>% add_n(location = "level")
 ```
@@ -112,7 +123,7 @@ clinical %>%
 <div class = "col-md-6">
 ```{r, fig.height= 8}
 ggsurvplot(survfit(Surv(os_time, os_event) ~ 1, 
-                   data = clinical),
+                   data = bmt_data),
            title = "OS from bmt", 
            font.main = c(24, "bold", "black"), 
            font.x = c(20, "bold", "black"), font.y = c(20, "bold", "black"), 
@@ -136,7 +147,7 @@ ggsurvplot(survfit(Surv(os_time, os_event) ~ 1,
 )
 
 ggsurvplot(survfit(Surv(os_time, os_event) ~ don_race, 
-                   data = clinical),
+                   data = bmt_data),
            title = "OS from bmt", 
            font.main = c(24, "bold", "black"), 
            font.x = c(20, "bold", "black"), font.y = c(20, "bold", "black"), 
@@ -160,7 +171,7 @@ ggsurvplot(survfit(Surv(os_time, os_event) ~ don_race,
 ) + guides(colour = guide_legend(ncol = 1))
 
 ggsurvplot(survfit(Surv(os_time, os_event) ~ rec_cmv_result, 
-                   data = clinical),
+                   data = bmt_data),
            title = "OS from bmt", 
            font.main = c(24, "bold", "black"), 
            font.x = c(20, "bold", "black"), font.y = c(20, "bold", "black"), 
@@ -184,7 +195,7 @@ ggsurvplot(survfit(Surv(os_time, os_event) ~ rec_cmv_result,
 ) + guides(colour = guide_legend(ncol = 1))
 
 ggsurvplot(survfit(Surv(os_time, os_event) ~ don_cmv_res, 
-                   data = clinical),
+                   data = bmt_data),
            title = "OS from bmt", 
            font.main = c(24, "bold", "black"), 
            font.x = c(20, "bold", "black"), font.y = c(20, "bold", "black"), 
@@ -208,7 +219,7 @@ ggsurvplot(survfit(Surv(os_time, os_event) ~ don_cmv_res,
 ) + guides(colour = guide_legend(ncol = 1))
 
 ggsurvplot(survfit(Surv(os_time, os_event) ~ karnofsky_score, 
-                   data = clinical),
+                   data = bmt_data),
            title = "OS from bmt", 
            font.main = c(24, "bold", "black"), 
            font.x = c(20, "bold", "black"), font.y = c(20, "bold", "black"), 
@@ -232,7 +243,7 @@ ggsurvplot(survfit(Surv(os_time, os_event) ~ karnofsky_score,
 ) + guides(colour = guide_legend(ncol = 1))
 
 ggsurvplot(survfit(Surv(os_time, os_event) ~ disease_status, 
-                   data = clinical),
+                   data = bmt_data),
            title = "OS from bmt", 
            font.main = c(24, "bold", "black"), 
            font.x = c(20, "bold", "black"), font.y = c(20, "bold", "black"), 
@@ -256,7 +267,7 @@ ggsurvplot(survfit(Surv(os_time, os_event) ~ disease_status,
 ) + guides(colour = guide_legend(ncol = 1))
 
 ggsurvplot(survfit(Surv(os_time, os_event) ~ plt20status, 
-                   data = clinical),
+                   data = bmt_data),
            title = "OS from bmt", 
            font.main = c(24, "bold", "black"), 
            font.x = c(20, "bold", "black"), font.y = c(20, "bold", "black"), 
@@ -284,7 +295,7 @@ ggsurvplot(survfit(Surv(os_time, os_event) ~ plt20status,
 <div class = "col-md-6">
 ```{r, fig.height= 8}
 ggsurvplot(survfit(Surv(relapse_time, relapse_event) ~ 1, 
-                   data = clinical),
+                   data = bmt_data),
            title = "RFS from bmt", 
            font.main = c(24, "bold", "black"), 
            font.x = c(20, "bold", "black"), font.y = c(20, "bold", "black"), 
@@ -308,7 +319,7 @@ ggsurvplot(survfit(Surv(relapse_time, relapse_event) ~ 1,
 ) + guides(colour = guide_legend(ncol = 1))
 
 ggsurvplot(survfit(Surv(relapse_time, relapse_event) ~ race, 
-                   data = clinical),
+                   data = bmt_data),
            title = "RFS from bmt", 
            font.main = c(24, "bold", "black"), 
            font.x = c(20, "bold", "black"), font.y = c(20, "bold", "black"), 
@@ -332,7 +343,7 @@ ggsurvplot(survfit(Surv(relapse_time, relapse_event) ~ race,
 ) + guides(colour = guide_legend(ncol = 1))
 
 ggsurvplot(survfit(Surv(relapse_time, relapse_event) ~ don_race, 
-                   data = clinical),
+                   data = bmt_data),
            title = "RFS from bmt", 
            font.main = c(24, "bold", "black"), 
            font.x = c(20, "bold", "black"), font.y = c(20, "bold", "black"), 
@@ -356,7 +367,7 @@ ggsurvplot(survfit(Surv(relapse_time, relapse_event) ~ don_race,
 ) + guides(colour = guide_legend(ncol = 1))
 
 ggsurvplot(survfit(Surv(relapse_time, relapse_event) ~ disease_status, 
-                   data = clinical),
+                   data = bmt_data),
            title = "RFS from bmt", 
            font.main = c(24, "bold", "black"), 
            font.x = c(20, "bold", "black"), font.y = c(20, "bold", "black"), 
@@ -380,7 +391,7 @@ ggsurvplot(survfit(Surv(relapse_time, relapse_event) ~ disease_status,
 ) + guides(colour = guide_legend(ncol = 1))
 
 ggsurvplot(survfit(Surv(relapse_time, relapse_event) ~ conditioning_reg, 
-                   data = clinical),
+                   data = bmt_data),
            title = "RFS from bmt", 
            font.main = c(24, "bold", "black"), 
            font.x = c(20, "bold", "black"), font.y = c(20, "bold", "black"), 
@@ -417,7 +428,7 @@ ggsurvplot(survfit(Surv(relapse_time, relapse_event) ~ conditioning_reg,
 
 ## Variables
 ```{r}
-clinical %>% 
+bmt_data %>% 
   select(race_pairs, sex_pairs,
          cmv_pairs) %>% 
   tbl_summary()
@@ -427,12 +438,12 @@ clinical %>%
 <div class = "row">
 <div class = "col-md-6">
 ```{r}
-clinical %>%
+bmt_data %>%
   select(race_pairs, sex_pairs,
          cmv_pairs) %>%
   tbl_uvregression(method = survival::coxph,
-                 y = (Surv(time = clinical$os_time, 
-                           event = clinical$os_event)),
+                 y = (Surv(time = bmt_data$os_time, 
+                           event = bmt_data$os_event)),
                  exponentiate = TRUE) %>% 
   bold_p(t = .05) %>% add_nevent(location = "level") %>% add_n(location = "level")
 ```
@@ -440,12 +451,12 @@ clinical %>%
 
 <div class = "col-md-6">
 ```{r}
-clinical %>%
+bmt_data %>%
   select(race_pairs, sex_pairs,
          cmv_pairs) %>%
   tbl_uvregression(method = survival::coxph,
-                 y = (Surv(time = clinical$relapse_time, 
-                           event = clinical$relapse_event)),
+                 y = (Surv(time = bmt_data$relapse_time, 
+                           event = bmt_data$relapse_event)),
                  exponentiate = TRUE) %>% 
   bold_p(t = .05) %>% add_nevent(location = "level") %>% add_n(location = "level")
 ```
@@ -458,7 +469,7 @@ clinical %>%
 <div class = "col-md-6">
 ```{r, fig.height= 8}
 ggsurvplot(survfit(Surv(os_time, os_event) ~ 1, 
-                   data = clinical),
+                   data = bmt_data),
            title = "OS from bmt", 
            font.main = c(24, "bold", "black"), 
            font.x = c(20, "bold", "black"), font.y = c(20, "bold", "black"), 
@@ -482,7 +493,7 @@ ggsurvplot(survfit(Surv(os_time, os_event) ~ 1,
 ) + guides(colour = guide_legend(ncol = 1))
 
 ggsurvplot(survfit(Surv(os_time, os_event) ~ race_pairs, 
-                   data = clinical),
+                   data = bmt_data),
            title = "OS from bmt", 
            font.main = c(24, "bold", "black"), 
            font.x = c(20, "bold", "black"), font.y = c(20, "bold", "black"), 
@@ -506,7 +517,7 @@ ggsurvplot(survfit(Surv(os_time, os_event) ~ race_pairs,
 ) + guides(colour = guide_legend(ncol = 1))
 
 ggsurvplot(survfit(Surv(os_time, os_event) ~ sex_pairs, 
-                   data = clinical),
+                   data = bmt_data),
            title = "OS from bmt", 
            font.main = c(24, "bold", "black"), 
            font.x = c(20, "bold", "black"), font.y = c(20, "bold", "black"), 
@@ -530,7 +541,7 @@ ggsurvplot(survfit(Surv(os_time, os_event) ~ sex_pairs,
 ) + guides(colour = guide_legend(ncol = 1))
 
 ggsurvplot(survfit(Surv(os_time, os_event) ~ cmv_pairs, 
-                   data = clinical),
+                   data = bmt_data),
            title = "OS from bmt", 
            font.main = c(24, "bold", "black"), 
            font.x = c(20, "bold", "black"), font.y = c(20, "bold", "black"), 
@@ -558,7 +569,7 @@ ggsurvplot(survfit(Surv(os_time, os_event) ~ cmv_pairs,
 <div class = "col-md-6">
 ```{r}
 ggsurvplot(survfit(Surv(relapse_time, relapse_event) ~ 1, 
-                   data = clinical),
+                   data = bmt_data),
            title = "RFS from bmt", 
            font.main = c(24, "bold", "black"), 
            font.x = c(20, "bold", "black"), font.y = c(20, "bold", "black"), 
