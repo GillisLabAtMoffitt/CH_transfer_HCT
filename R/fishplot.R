@@ -81,9 +81,10 @@ fish = layoutClones(fish)
 
 
 png("hct_634851 donor.png", width = 660, height = 480, bg = "transparent")
-fishPlot(fish,shape="polygon",title.btm= hct_id,
+fishPlot(fish,shape="spline",title.btm= hct_id,
          cex.title=1, vlines=NULL,
          ramp.angle = 1,
+         pad.left = 0.05,
          vlab=NULL, 
          bg.type = "solid",
          bg.col = "transparent"
@@ -136,9 +137,10 @@ fish = createFishObject(frac.table,parents,timepoints=timepoints,
 fish = layoutClones(fish)
 
 png("hct_657119 donor.png", width = 660, height = 480, bg = "transparent")
-fishPlot(fish,shape="polygon",title.btm= hct_id,
+fishPlot(fish,shape="spline",title.btm= hct_id,
          cex.title=1, vlines=NULL,
          ramp.angle = 1,
+         pad.left = 0.05,
          vlab=NULL, 
          bg.type = "solid",
          bg.col = "transparent"
@@ -190,9 +192,9 @@ dev.off()
 
 timepoints <- c(-100, 0, 100)    
 frac.table = matrix(
-  c(86, 
-    86,
-    86),
+  c(8.6, 
+    8.6,
+    8.6),
   ncol=length(timepoints))
 parents = c(0)
 fish = createFishObject(frac.table,parents,timepoints=timepoints,
@@ -201,9 +203,10 @@ fish = createFishObject(frac.table,parents,timepoints=timepoints,
 fish = layoutClones(fish)
 
 png("hct_705854 donor.png", width = 660, height = 480, bg = "transparent")
-fishPlot(fish,shape="polygon",title.btm= hct_id,
+fishPlot(fish,shape="spline",title.btm= hct_id,
          cex.title=1, vlines=NULL,
          ramp.angle = 1,
+         pad.left = 0.05,
          vlab=NULL, 
          bg.type = "solid",
          bg.col = "transparent"
@@ -281,9 +284,10 @@ fish = createFishObject(frac.table,parents,timepoints=timepoints,
 fish = layoutClones(fish)
 
 png("hct_715231 donor.png", width = 660, height = 480, bg = "transparent")
-fishPlot(fish,shape="polygon",title.btm= hct_id,
+fishPlot(fish,shape="spline",title.btm= hct_id,
          cex.title=1, vlines=NULL,
          ramp.angle = 1,
+         pad.left = 0.05,
          vlab=NULL, 
          bg.type = "solid",
          bg.col = "transparent"
@@ -394,9 +398,10 @@ fish = createFishObject(frac.table,parents,timepoints=timepoints,
 fish = layoutClones(fish)
 
 png("hct_753399 donor.png", width = 660, height = 480, bg = "transparent")
-fishPlot(fish,shape="polygon",title.btm= hct_id,
+fishPlot(fish,shape="spline",title.btm= hct_id,
          cex.title=1, vlines=NULL,
          ramp.angle = 1,
+         pad.left = 0.05,
          vlab=NULL, 
          bg.type = "solid",
          bg.col = "transparent"
@@ -486,9 +491,10 @@ fish = createFishObject(frac.table,parents,timepoints=timepoints,
 fish = layoutClones(fish)
 
 png("hct_753525 donor.png", width = 660, height = 480, bg = "transparent")
-fishPlot(fish,shape="polygon",title.btm= hct_id,
+fishPlot(fish,shape="spline",title.btm= hct_id,
          cex.title=1, vlines=NULL,
          ramp.angle = 1,
+         pad.left = 0.05,
          vlab=NULL, 
          bg.type = "solid",
          bg.col = "transparent"
@@ -552,9 +558,10 @@ fish = createFishObject(frac.table,parents,timepoints=timepoints,
 fish = layoutClones(fish)
 
 png("hct_769464 donor.png", width = 660, height = 480, bg = "transparent")
-fishPlot(fish,shape="polygon",title.btm= hct_id,
+fishPlot(fish,shape="spline",title.btm= hct_id,
          cex.title=1, vlines=NULL,
          ramp.angle = 1,
+         pad.left = 0.05,
          vlab=NULL, 
          bg.type = "solid",
          bg.col = "transparent"
