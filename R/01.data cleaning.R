@@ -61,6 +61,7 @@ write_rds(clinical, "clinical.rds")
 
 ## CH calls
 calls_CH <- calls_CH %>% 
+  mutate(across(everything(), ~ na_if(., "NA"))) %>% 
   mutate(CH_status = case_when(
     !is.na(CHROM)                      ~ "CH",
     is.na(CHROM)                       ~ "No CH"
