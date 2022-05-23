@@ -73,7 +73,7 @@ bmt_data %>%
   tbl_summary()
 ```
 
-## Univariate
+## Univariable
 <div class = "row">
 <div class = "col-md-6">
 ```{r}
@@ -434,7 +434,7 @@ bmt_data %>%
   tbl_summary()
 ```
 
-## Univariate
+## Univariable
 <div class = "row">
 <div class = "col-md-6">
 ```{r}
@@ -610,7 +610,7 @@ bmt_data %>%
   bold_labels() %>% add_p() %>% bold_p()
 ```
 
-### Univariate
+### Univariable
 <div class = "row">
 <div class = "col-md-6">
 OS
@@ -654,7 +654,7 @@ bmt_data %>%
 
 <div class = "row">
 <div class = "col-md-6">
-```{r}
+```{r, fig.height=8}
 ggsurvplot(survfit(Surv(os_time, os_event) ~ CH_status, 
                    data = bmt_data),
            title = "OS from bmt", 
@@ -682,7 +682,7 @@ ggsurvplot(survfit(Surv(os_time, os_event) ~ CH_status,
 </div>
 
 <div class = "col-md-6">
-```{r}
+```{r, fig.height=8}
 ggsurvplot(survfit(Surv(relapse_time, relapse_event) ~ CH_status, 
                    data = bmt_data),
            title = "RFS from bmt", 
