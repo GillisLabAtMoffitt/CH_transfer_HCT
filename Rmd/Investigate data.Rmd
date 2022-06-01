@@ -54,7 +54,42 @@ calls_CH <-
 
 ```{r bind data}
 bmt_data <- left_join(calls_CH, clinical,
-                      by = c("RecipientMRN" = "recipient_mrn"))
+                      by = c("RecipientMRN" = "recipient_mrn")) %>% 
+  mutate(sex_pairs2 = case_when(
+    sex_pairs == "Female/Female"        ~ "don_Female/rec_Female",
+    sex_pairs == "Female/Male"          ~ "sex mismatch",
+    sex_pairs == "Male/Female"          ~ "sex mismatch",
+    sex_pairs == "Male/Male"            ~ "don_Male/rec_Male"
+  ), sex_pairs2 = factor(sex_pairs2,
+                        levels = c("don_Male/rec_Male",
+                                   "don_Female/rec_Female",
+                                   "sex mismatch"
+                                   ))) %>% 
+  mutate(sex_pairs = case_when(
+    sex_pairs == "Female/Female"        ~ "don_Female/rec_Female",
+    sex_pairs == "Female/Male"          ~ "don_Female/rec_Male",
+    sex_pairs == "Male/Female"          ~ "don_Male/rec_Female",
+    sex_pairs == "Male/Male"            ~ "don_Male/rec_Male"
+  ), sex_pairs = factor(sex_pairs,
+                        levels = c("don_Male/rec_Male",
+                                   "don_Female/rec_Female",
+                                   "don_Female/rec_Male",
+                                   "don_Male/rec_Female"
+                                   ))) %>% 
+  mutate(race_pairs = case_when(
+    race_pairs == "Black/Black"         ~ "don_Black/rec_Black",
+    race_pairs == "Other/White"         ~ "don_Other/rec_White",
+    race_pairs == "White/Other"         ~ "don_White/rec_Other",
+    race_pairs == "White/White"         ~ "don_White/rec_White"
+  )) %>% 
+  mutate(cmv_pairs = case_when(
+    cmv_pairs == "Negative/Negative"    ~ "don_Negative/rec_Negative",
+    cmv_pairs == "Negative/Positive"    ~ "don_Negative/rec_Positive",
+    cmv_pairs == "Positive/Negative"    ~ "don_Positive/rec_Negative",
+    cmv_pairs == "Positive/Positive"    ~ "don_Positive/rec_Positive"
+  )) %>% 
+  mutate(CH_status = factor(CH_status, 
+                            levels = c("No CH", "CH")))
 ```
 
 
@@ -76,6 +111,7 @@ bmt_data %>%
 ## Univariable
 <div class = "row">
 <div class = "col-md-6">
+OS
 ```{r}
 bmt_data %>%
   select(age_bmt, donor_age, race, don_race, sex, don_sex,
@@ -102,6 +138,7 @@ bmt_data %>%
 </div>
 
 <div class = "col-md-6">
+RFS - relapse
 ```{r}
 bmt_data %>%
   select(age_bmt, donor_age, race, don_race, sex, don_sex,
@@ -145,6 +182,30 @@ ggsurvplot(survfit(Surv(os_time, os_event) ~ 1,
            
            legend.title = "", xlab = "Time (in months)" 
 )
+
+ggsurvplot(survfit(Surv(os_time, os_event) ~ race, 
+                   data = bmt_data),
+           title = "OS from bmt", 
+           font.main = c(24, "bold", "black"), 
+           font.x = c(20, "bold", "black"), font.y = c(20, "bold", "black"), 
+           font.legend = c(14, "bold", "black"), font.tickslab = c(18, "bold", "black"), 
+           size = 1.5,
+           
+           pval=TRUE, 
+           # legend.labs=c(""),
+           # palette = c("black", "green","blue", "red"), 
+           # Add risk table
+           risk.table = "abs_pct", risk.table.title = "Risk table (number(%))",
+           risk.table.y.text = FALSE, risk.table.fontsize = 3, tables.height = 0.3,
+           tables.theme = theme_survminer(base_size = 5,
+                                          font.main = c(16, "bold", "black"),
+                                          font.x = c(16, "bold", "black"),
+                                          font.y = c(16, "bold", "transparent"),
+                                          font.tickslab = c(19, "bold", "black")
+           ),
+           
+           legend.title = "", xlab = "Time (in months)" 
+) + guides(colour = guide_legend(ncol = 1))
 
 ggsurvplot(survfit(Surv(os_time, os_event) ~ don_race, 
                    data = bmt_data),
@@ -289,6 +350,30 @@ ggsurvplot(survfit(Surv(os_time, os_event) ~ plt20status,
            
            legend.title = "", xlab = "Time (in months)" 
 ) + guides(colour = guide_legend(ncol = 1))
+
+ggsurvplot(survfit(Surv(os_time, os_event) ~ conditioning_reg, 
+                   data = bmt_data),
+           title = "OS from bmt", 
+           font.main = c(24, "bold", "black"), 
+           font.x = c(20, "bold", "black"), font.y = c(20, "bold", "black"), 
+           font.legend = c(14, "bold", "black"), font.tickslab = c(18, "bold", "black"), 
+           size = 1.5,
+           
+           pval=TRUE, 
+           # legend.labs=c(""),
+           # palette = c("black", "green","blue", "red"), 
+           # Add risk table
+           risk.table = "abs_pct", risk.table.title = "Risk table (number(%))",
+           risk.table.y.text = FALSE, risk.table.fontsize = 3, tables.height = 0.3,
+           tables.theme = theme_survminer(base_size = 5,
+                                          font.main = c(16, "bold", "black"),
+                                          font.x = c(16, "bold", "black"),
+                                          font.y = c(16, "bold", "transparent"),
+                                          font.tickslab = c(19, "bold", "black")
+           ),
+           
+           legend.title = "", xlab = "Time (in months)" 
+) + guides(colour = guide_legend(ncol = 1))
 ```
 </div>
 
@@ -366,7 +451,103 @@ ggsurvplot(survfit(Surv(relapse_time, relapse_event) ~ don_race,
            legend.title = "", xlab = "Time (in months)" 
 ) + guides(colour = guide_legend(ncol = 1))
 
+ggsurvplot(survfit(Surv(relapse_time, relapse_event) ~ rec_cmv_result, 
+                   data = bmt_data),
+           title = "RFS from bmt", 
+           font.main = c(24, "bold", "black"), 
+           font.x = c(20, "bold", "black"), font.y = c(20, "bold", "black"), 
+           font.legend = c(14, "bold", "black"), font.tickslab = c(18, "bold", "black"), 
+           size = 1.5,
+           
+           pval=TRUE, 
+           # legend.labs=c(""),
+           # palette = c("black", "green","blue", "red"), 
+           # Add risk table
+           risk.table = "abs_pct", risk.table.title = "Risk table (number(%))",
+           risk.table.y.text = FALSE, risk.table.fontsize = 3, tables.height = 0.3,
+           tables.theme = theme_survminer(base_size = 5,
+                                          font.main = c(16, "bold", "black"),
+                                          font.x = c(16, "bold", "black"),
+                                          font.y = c(16, "bold", "transparent"),
+                                          font.tickslab = c(19, "bold", "black")
+           ),
+           
+           legend.title = "", xlab = "Time (in months)" 
+) + guides(colour = guide_legend(ncol = 1))
+
+ggsurvplot(survfit(Surv(relapse_time, relapse_event) ~ don_cmv_res, 
+                   data = bmt_data),
+           title = "RFS from bmt", 
+           font.main = c(24, "bold", "black"), 
+           font.x = c(20, "bold", "black"), font.y = c(20, "bold", "black"), 
+           font.legend = c(14, "bold", "black"), font.tickslab = c(18, "bold", "black"), 
+           size = 1.5,
+           
+           pval=TRUE, 
+           # legend.labs=c(""),
+           # palette = c("black", "green","blue", "red"), 
+           # Add risk table
+           risk.table = "abs_pct", risk.table.title = "Risk table (number(%))",
+           risk.table.y.text = FALSE, risk.table.fontsize = 3, tables.height = 0.3,
+           tables.theme = theme_survminer(base_size = 5,
+                                          font.main = c(16, "bold", "black"),
+                                          font.x = c(16, "bold", "black"),
+                                          font.y = c(16, "bold", "transparent"),
+                                          font.tickslab = c(19, "bold", "black")
+           ),
+           
+           legend.title = "", xlab = "Time (in months)" 
+) + guides(colour = guide_legend(ncol = 1))
+
+ggsurvplot(survfit(Surv(relapse_time, relapse_event) ~ karnofsky_score, 
+                   data = bmt_data),
+           title = "RFS from bmt", 
+           font.main = c(24, "bold", "black"), 
+           font.x = c(20, "bold", "black"), font.y = c(20, "bold", "black"), 
+           font.legend = c(14, "bold", "black"), font.tickslab = c(18, "bold", "black"), 
+           size = 1.5,
+           
+           pval=TRUE, 
+           # legend.labs=c(""),
+           # palette = c("black", "green","blue", "red"), 
+           # Add risk table
+           risk.table = "abs_pct", risk.table.title = "Risk table (number(%))",
+           risk.table.y.text = FALSE, risk.table.fontsize = 3, tables.height = 0.3,
+           tables.theme = theme_survminer(base_size = 5,
+                                          font.main = c(16, "bold", "black"),
+                                          font.x = c(16, "bold", "black"),
+                                          font.y = c(16, "bold", "transparent"),
+                                          font.tickslab = c(19, "bold", "black")
+           ),
+           
+           legend.title = "", xlab = "Time (in months)" 
+) + guides(colour = guide_legend(ncol = 1))
+
 ggsurvplot(survfit(Surv(relapse_time, relapse_event) ~ disease_status, 
+                   data = bmt_data),
+           title = "RFS from bmt", 
+           font.main = c(24, "bold", "black"), 
+           font.x = c(20, "bold", "black"), font.y = c(20, "bold", "black"), 
+           font.legend = c(14, "bold", "black"), font.tickslab = c(18, "bold", "black"), 
+           size = 1.5,
+           
+           pval=TRUE, 
+           # legend.labs=c(""),
+           # palette = c("black", "green","blue", "red"), 
+           # Add risk table
+           risk.table = "abs_pct", risk.table.title = "Risk table (number(%))",
+           risk.table.y.text = FALSE, risk.table.fontsize = 3, tables.height = 0.3,
+           tables.theme = theme_survminer(base_size = 5,
+                                          font.main = c(16, "bold", "black"),
+                                          font.x = c(16, "bold", "black"),
+                                          font.y = c(16, "bold", "transparent"),
+                                          font.tickslab = c(19, "bold", "black")
+           ),
+           
+           legend.title = "", xlab = "Time (in months)" 
+) + guides(colour = guide_legend(ncol = 1))
+
+ggsurvplot(survfit(Surv(relapse_time, relapse_event) ~ plt20status, 
                    data = bmt_data),
            title = "RFS from bmt", 
            font.main = c(24, "bold", "black"), 
@@ -429,7 +610,7 @@ ggsurvplot(survfit(Surv(relapse_time, relapse_event) ~ conditioning_reg,
 ## Variables
 ```{r}
 bmt_data %>% 
-  select(race_pairs, sex_pairs,
+  select(race_pairs, sex_pairs, sex_pairs2,
          cmv_pairs) %>% 
   tbl_summary()
 ```
@@ -437,9 +618,10 @@ bmt_data %>%
 ## Univariable
 <div class = "row">
 <div class = "col-md-6">
+OS
 ```{r}
 bmt_data %>%
-  select(race_pairs, sex_pairs,
+  select(race_pairs, sex_pairs, sex_pairs2,
          cmv_pairs) %>%
   tbl_uvregression(method = survival::coxph,
                  y = (Surv(time = bmt_data$os_time, 
@@ -450,9 +632,10 @@ bmt_data %>%
 </div>
 
 <div class = "col-md-6">
+RFS - relapse
 ```{r}
 bmt_data %>%
-  select(race_pairs, sex_pairs,
+  select(race_pairs, sex_pairs, sex_pairs2,
          cmv_pairs) %>%
   tbl_uvregression(method = survival::coxph,
                  y = (Surv(time = bmt_data$relapse_time, 
@@ -540,6 +723,30 @@ ggsurvplot(survfit(Surv(os_time, os_event) ~ sex_pairs,
            legend.title = "", xlab = "Time (in months)" 
 ) + guides(colour = guide_legend(ncol = 1))
 
+ggsurvplot(survfit(Surv(os_time, os_event) ~ sex_pairs2, 
+                   data = bmt_data),
+           title = "OS from bmt", 
+           font.main = c(24, "bold", "black"), 
+           font.x = c(20, "bold", "black"), font.y = c(20, "bold", "black"), 
+           font.legend = c(14, "bold", "black"), font.tickslab = c(18, "bold", "black"), 
+           size = 1.5,
+           
+           pval=TRUE, 
+           # legend.labs=c(""),
+           # palette = c("black", "green","blue", "red"), 
+           # Add risk table
+           risk.table = "abs_pct", risk.table.title = "Risk table (number(%))",
+           risk.table.y.text = FALSE, risk.table.fontsize = 3, tables.height = 0.3,
+           tables.theme = theme_survminer(base_size = 5,
+                                          font.main = c(16, "bold", "black"),
+                                          font.x = c(16, "bold", "black"),
+                                          font.y = c(16, "bold", "transparent"),
+                                          font.tickslab = c(19, "bold", "black")
+           ),
+           
+           legend.title = "", xlab = "Time (in months)" 
+) + guides(colour = guide_legend(ncol = 1))
+
 ggsurvplot(survfit(Surv(os_time, os_event) ~ cmv_pairs, 
                    data = bmt_data),
            title = "OS from bmt", 
@@ -567,8 +774,104 @@ ggsurvplot(survfit(Surv(os_time, os_event) ~ cmv_pairs,
 </div>
 
 <div class = "col-md-6">
-```{r}
+```{r, fig.height= 8}
 ggsurvplot(survfit(Surv(relapse_time, relapse_event) ~ 1, 
+                   data = bmt_data),
+           title = "RFS from bmt", 
+           font.main = c(24, "bold", "black"), 
+           font.x = c(20, "bold", "black"), font.y = c(20, "bold", "black"), 
+           font.legend = c(14, "bold", "black"), font.tickslab = c(18, "bold", "black"), 
+           size = 1.5,
+           
+           pval=TRUE, 
+           # legend.labs=c(""),
+           # palette = c("black", "green","blue", "red"), 
+           # Add risk table
+           risk.table = "abs_pct", risk.table.title = "Risk table (number(%))",
+           risk.table.y.text = FALSE, risk.table.fontsize = 3, tables.height = 0.3,
+           tables.theme = theme_survminer(base_size = 5,
+                                          font.main = c(16, "bold", "black"),
+                                          font.x = c(16, "bold", "black"),
+                                          font.y = c(16, "bold", "transparent"),
+                                          font.tickslab = c(19, "bold", "black")
+           ),
+           
+           legend.title = "", xlab = "Time (in months)" 
+) + guides(colour = guide_legend(ncol = 1))
+
+ggsurvplot(survfit(Surv(relapse_time, relapse_event) ~ race_pairs, 
+                   data = bmt_data),
+           title = "RFS from bmt", 
+           font.main = c(24, "bold", "black"), 
+           font.x = c(20, "bold", "black"), font.y = c(20, "bold", "black"), 
+           font.legend = c(14, "bold", "black"), font.tickslab = c(18, "bold", "black"), 
+           size = 1.5,
+           
+           pval=TRUE, 
+           # legend.labs=c(""),
+           # palette = c("black", "green","blue", "red"), 
+           # Add risk table
+           risk.table = "abs_pct", risk.table.title = "Risk table (number(%))",
+           risk.table.y.text = FALSE, risk.table.fontsize = 3, tables.height = 0.3,
+           tables.theme = theme_survminer(base_size = 5,
+                                          font.main = c(16, "bold", "black"),
+                                          font.x = c(16, "bold", "black"),
+                                          font.y = c(16, "bold", "transparent"),
+                                          font.tickslab = c(19, "bold", "black")
+           ),
+           
+           legend.title = "", xlab = "Time (in months)" 
+) + guides(colour = guide_legend(ncol = 1))
+
+ggsurvplot(survfit(Surv(relapse_time, relapse_event) ~ sex_pairs, 
+                   data = bmt_data),
+           title = "RFS from bmt", 
+           font.main = c(24, "bold", "black"), 
+           font.x = c(20, "bold", "black"), font.y = c(20, "bold", "black"), 
+           font.legend = c(14, "bold", "black"), font.tickslab = c(18, "bold", "black"), 
+           size = 1.5,
+           
+           pval=TRUE, 
+           # legend.labs=c(""),
+           # palette = c("black", "green","blue", "red"), 
+           # Add risk table
+           risk.table = "abs_pct", risk.table.title = "Risk table (number(%))",
+           risk.table.y.text = FALSE, risk.table.fontsize = 3, tables.height = 0.3,
+           tables.theme = theme_survminer(base_size = 5,
+                                          font.main = c(16, "bold", "black"),
+                                          font.x = c(16, "bold", "black"),
+                                          font.y = c(16, "bold", "transparent"),
+                                          font.tickslab = c(19, "bold", "black")
+           ),
+           
+           legend.title = "", xlab = "Time (in months)" 
+) + guides(colour = guide_legend(ncol = 1))
+
+ggsurvplot(survfit(Surv(relapse_time, relapse_event) ~ sex_pairs2, 
+                   data = bmt_data),
+           title = "RFS from bmt", 
+           font.main = c(24, "bold", "black"), 
+           font.x = c(20, "bold", "black"), font.y = c(20, "bold", "black"), 
+           font.legend = c(14, "bold", "black"), font.tickslab = c(18, "bold", "black"), 
+           size = 1.5,
+           
+           pval=TRUE, 
+           # legend.labs=c(""),
+           # palette = c("black", "green","blue", "red"), 
+           # Add risk table
+           risk.table = "abs_pct", risk.table.title = "Risk table (number(%))",
+           risk.table.y.text = FALSE, risk.table.fontsize = 3, tables.height = 0.3,
+           tables.theme = theme_survminer(base_size = 5,
+                                          font.main = c(16, "bold", "black"),
+                                          font.x = c(16, "bold", "black"),
+                                          font.y = c(16, "bold", "transparent"),
+                                          font.tickslab = c(19, "bold", "black")
+           ),
+           
+           legend.title = "", xlab = "Time (in months)" 
+) + guides(colour = guide_legend(ncol = 1))
+
+ggsurvplot(survfit(Surv(relapse_time, relapse_event) ~ cmv_pairs, 
                    data = bmt_data),
            title = "RFS from bmt", 
            font.main = c(24, "bold", "black"), 
@@ -626,7 +929,7 @@ bmt_data %>%
 </div>
 
 <div class = "col-md-6">
-Relapse
+RFS - relapse
 ```{r}
 bmt_data %>%
   select(CH_status) %>%
@@ -644,7 +947,7 @@ bmt_data %>%
 ### Variables
 ```{r}
 bmt_data %>% 
-  select(race_pairs, sex_pairs,
+  select(race_pairs, sex_pairs, sex_pairs2,
          cmv_pairs, CH_status) %>% 
   tbl_summary(by= CH_status) %>% 
   bold_labels() %>% add_p() %>% bold_p()
